@@ -1,7 +1,74 @@
+<!DOCTYPE html>
 <html>
-  <head><title>我的部落格</title></head>
-  <body>
-    <h1>歡迎來到我的 GitHub Pages</h1>
-    <p>這是我的第一個測試頁面。</p>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title>每日快訊 Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { text-align: center; }
+    section { margin-bottom: 40px; }
+    h2 { color: #2c3e50; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <h1>📌 每日快訊 Dashboard</h1>
+
+  <!-- 🎬 電影 -->
+  <section>
+    <h2>🎬 電影快訊</h2>
+    <div id="movies">載入中...</div>
+  </section>
+
+  <!-- 📈 股市/區塊鏈 -->
+  <section>
+    <h2>📈 股市 & 區塊鏈</h2>
+    <div id="finance">載入中...</div>
+  </section>
+
+  <!-- 🎵 音樂 -->
+  <section>
+    <h2>🎵 音樂排行榜</h2>
+    <div id="music">載入中...</div>
+  </section>
+
+  <script>
+    // 🎬 電影 (IMDb Top RSS)
+    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://rss.imdb.com/chart/top')
+      .then(res => res.json())
+      .then(data => {
+        let html = "<ul>";
+        data.items.slice(0,5).forEach(item => {
+          html += `<li><a href="${item.link}" target="_blank">${item.title}</a></li>`;
+        });
+        html += "</ul>";
+        document.getElementById("movies").innerHTML = html;
+      });
+
+    // 📈 股市 (Yahoo Finance Example)
+    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://feeds.finance.yahoo.com/rss/2.0/headline?s=AAPL&region=US&lang=en-US')
+      .then(res => res.json())
+      .then(data => {
+        let html = "<ul>";
+        data.items.slice(0,5).forEach(item => {
+          html += `<li><a href="${item.link}" target="_blank">${item.title}</a></li>`;
+        });
+        html += "</ul>";
+        document.getElementById("finance").innerHTML = html;
+      });
+
+    // 🎵 音樂 (Billboard Hot 100)
+    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.billboard.com/rss/charts/hot-100')
+      .then(res => res.json())
+      .then(data => {
+        let html = "<ul>";
+        data.items.slice(0,5).forEach(item => {
+          html += `<li><a href="${item.link}" target="_blank">${item.title}</a></li>`;
+        });
+        html += "</ul>";
+        document.getElementById("music").innerHTML = html;
+      });
+  </script>
+</body>
 </html>
