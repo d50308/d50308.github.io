@@ -31,9 +31,9 @@
     </script>
     <style type="text/tailwindcss">
         @layer utilities {
-            /* 背景图更换为 bg2.png */
+            /* 背景图 bg1 */
             .hero-bg-image {
-                background-image: url("./bg3.png");
+                background-image: url("./bg1.png");
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -44,17 +44,17 @@
             .track-item-hover:hover {
                 background: #f8f9ff;
             }
-            /* 专辑封面区块 圆角、正方形、缩小30% */
+            /* 专辑封面 圆角正方形缩小30% */
             .cover-container {
                 position: relative;
                 border-radius: 24px;
                 overflow: hidden;
                 background: linear-gradient(135deg, #ffb86c, #ff6b9d);
-                aspect-ratio: 1 / 1; /* 强制正方形 */
-                transform: scale(0.7); /* 整体缩小30% */
+                aspect-ratio: 1 / 1;
+                transform: scale(0.7);
                 transform-origin: center;
             }
-            /* 右下角歌名 放大40% */
+            /* 右下角歌名放大40% */
             .song-title-badge {
                 position: absolute;
                 bottom: 12px;
@@ -67,14 +67,14 @@
                 font-weight: bold;
                 backdrop-filter: blur(2px);
             }
-            /* VIRTUAL ARTIST 浅假金色、字距缩减60%、透明度65%、扁字型 */
+            /* VIRTUAL ARTIST 浅金、字距收窄、透明度65%、扁字 */
             .virtual-artist-text {
                 color: #d6b56a;
                 letter-spacing: 4px;
                 opacity: 0.65;
-                font-stretch: condensed; /* 扁窄字型 */
+                font-stretch: condensed;
             }
-            /* 全局悬浮音量控件：垂直直式、整体缩小20%、宽度-20%、固定尺寸不变形 */
+            /* 悬浮垂直音量控件 缩小20%、宽度减20% */
             .global-volume-wrap {
                 position: fixed;
                 bottom: 24px;
@@ -85,12 +85,12 @@
                 align-items: center;
                 gap: 12px;
                 background: rgba(240,240,240,0.8);
-                width: 58px; /* 原72px -20% */
+                width: 58px;
                 height: 180px;
                 padding: 16px 10px;
                 border-radius: 999px;
                 box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-                transform: scale(0.8); /* 整体缩小20% */
+                transform: scale(0.8);
             }
             .volume-slider {
                 -webkit-appearance: none;
@@ -135,41 +135,42 @@
     </style>
 </head>
 <body class="bg-pageBg font-sans text-darkText overflow-x-hidden">
-    <!-- 全局悬浮音量控件 垂直直式、缩小20%、宽度缩减20% -->
+    <!-- 右下角悬浮音量 -->
     <div class="global-volume-wrap">
         <i class="fa fa-volume-up volume-icon-style" id="volumeIcon"></i>
         <input type="range" min="0" max="100" value="70" class="volume-slider" id="volumeSlider">
     </div>
 
-    <!-- Hero 主视觉 无顶部空白 py-0 -->
+    <!-- 主视觉区块 -->
     <section class="min-h-screen hero-bg-image px-6 md:px-12 lg:px-20 py-0 relative overflow-hidden">
         <div class="absolute inset-0 bg-white/20"></div>
         <div class="relative z-10">
-            <!-- Logo 放大15% -->
-            <div class="flex justify-center mb-3">
+            <!-- 顶部Logo 移动端加大下方间距 -->
+            <div class="flex justify-center mb-8">
                 <img src="https://d50308.github.io/logo.png" alt="chen! logo" class="h-[74px] md:h-[86px]">
             </div>
 
             <div class="grid lg:grid-cols-2 items-center gap-6 lg:gap-0">
-                <!-- 左侧文字区块，整体放大12%，标题行统一字号缩小20%、透明度88% -->
-                <div class="order-1 lg:order-1 pt-2 lg:pt-0 pl-6 md:pl-12 lg:pl-20 scale-[1.12] origin-left">
-                    <p class="virtual-artist-text font-black text-[50%] mb-[4em]">VIRTUAL ARTIST</p>
-                    <!-- 统一字号缩小20%，整行opacity 88%，兩者同粗體，We Share取消細字設定 -->
+                <!-- 左侧文字区域：移动端底部margin拉近人物、顶部margin缩小拉开logo距离 -->
+                <div class="order-1 lg:order-1 pt-2 lg:pt-0 pl-6 md:pl-12 lg:pl-20 scale-[1.12] origin-left mb-6 lg:mb-0">
+                    <p class="virtual-artist-text font-black text-[50%] mb-[2em] lg:mb-[4em]">VIRTUAL ARTIST</p>
+                    <!-- 這份自在 + We Share 同行、同粗、统一缩小20%、透明度88% -->
                     <h1 class="text-[clamp(0.96rem,2.304vw,1.536rem)] font-bold leading-tight mb-4 flex items-baseline gap-3 opacity-[0.88]">
                         這份自在
                         <span>We Share.</span>
                     </h1>
+                    <!-- 底部小字缩小15%，chen!替换为logo，图标尺寸适配文字基线 -->
                     <p class="text-gray-500 max-w-sm flex items-center gap-1" style="font-size: 85%;">
-    - 《We Share》by  
-    <img src="https://d50308.github.io/logo.png" alt="chen!" class="h-[3.8em] w-auto inline-block align-baseline">
-</p>
+                        - 《We Share》by
+                        <img src="https://d50308.github.io/logo.png" alt="chen!" class="h-[1.2em] w-auto inline-block align-baseline">
+                    </p>
                 </div>
 
-                <!-- 人物放大30% -->
-                <div class="order-2 lg:order-2 flex justify-end lg:translate-y-6 mt-8 lg:mt-0">
-                    <img 
-                        src="https://d50308.github.io/concept%20.png" 
-                        alt="chen! virtual singer" 
+                <!-- 右侧人物图 移动端取消上方margin，拉近文字 -->
+                <div class="order-2 lg:order-2 flex justify-end lg:translate-y-6 mt-0 lg:mt-0">
+                    <img
+                        src="https://d50308.github.io/concept%20.png"
+                        alt="chen! virtual singer"
                         class="max-w-[117%] w-[117%] scale-117 origin-right lg:origin-right mx-auto lg:mx-0"
                     >
                 </div>
@@ -177,7 +178,7 @@
         </div>
     </section>
 
-    <!-- 播放器区域 LISTEN NOW靠左 -->
+    <!-- 播放器卡片区域 -->
     <section class="px-6 md:px-12 lg:px-20 -mt-10 lg:-mt-24 relative z-10 pb-16">
         <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 max-w-5xl mx-auto">
             <div class="mb-6 text-left">
@@ -185,7 +186,7 @@
                 <h2 class="text-2xl font-bold">Featured Tracks</h2>
             </div>
             <div class="grid lg:grid-cols-2 gap-8 items-center">
-                <!-- 歌曲清单：播放/暂停均显示时间+进度条，仅切歌隐藏重置 -->
+                <!-- 歌曲列表：播放/暂停均显示进度+时间，仅切歌隐藏重置 -->
                 <div class="space-y-3" id="trackList">
                     <div class="track-item-hover rounded-xl p-2 flex items-center gap-3 bg-gray-50 cursor-pointer h-14" data-index="0">
                         <div class="w-10 h-10 rounded-md bg-gradient-to-r from-brandPink to-brandOrange flex items-center justify-center text-white play-icon">
@@ -235,8 +236,7 @@
                         <i class="fa fa-ellipsis-v text-gray-300"></i>
                     </div>
                 </div>
-
-                <!-- 封面区块：无音量，仅封面+歌名 -->
+                <!-- 专辑封面区域 -->
                 <div class="cover-container w-full">
                     <img id="albumCoverImg" src="" alt="album cover" class="w-full h-full object-cover hidden">
                     <div class="song-title-badge" id="coverSongTitle">We Share</div>
@@ -245,7 +245,7 @@
         </div>
     </section>
 
-    <!-- 订阅区域 正常显示，按钮文字X -->
+    <!-- 订阅栏 -->
     <section class="bg-gradient-to-r from-brandPink/15 to-brandCyan/15 px-6 md:px-12 lg:px-20 py-10">
         <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
@@ -259,37 +259,37 @@
         </div>
     </section>
 
-    <!-- 音频无自动播放 -->
+    <!-- 音频播放器 -->
     <audio id="audioPlayer" muted>
         <source src="https://d50308.github.io/We%20Share.mp3" type="audio/mpeg">
     
 
     <script>
         const trackList = [
-            { 
-                title: "We Share", 
-                src: "https://d50308.github.io/We%20Share.mp3", 
+            {
+                title: "We Share",
+                src: "https://d50308.github.io/We%20Share.mp3",
                 duration: "03:24",
                 totalSec: 222,
                 albumCover: "https://d50308.github.io/cover-we-share.png"
             },
-            { 
-                title: "雨的節奏", 
-                src: "%E9%9B%A8%E7%9A%84%E7%AF%80%E5%A5%8F.mp3", 
+            {
+                title: "雨的節奏",
+                src: "%E9%9B%A8%E7%9A%84%E7%AF%80%E5%A5%8F.mp3",
                 duration: "03:09",
                 totalSec: 238,
                 albumCover: "https://d50308.github.io/cover-rain.png"
             },
-            { 
-                title: "To the Light", 
-                src: "https://d50308.github.io/light.mp3", 
-                duration: "04:21",
+            {
+                title: "To the Light",
+                src: "To%20the%20Light.mp3",
+                duration: "02:57",
                 totalSec: 261,
                 albumCover: "https://d50308.github.io/cover-light.png"
             },
-            { 
-                title: "Moonlight on Repeat", 
-                src: "Moonlight%20on%20Repeat.mp3", 
+            {
+                title: "Moonlight on Repeat",
+                src: "Moonlight%20on%20Repeat.mp3",
                 duration: "03:16",
                 totalSec: 213,
                 albumCover: "https://d50308.github.io/cover-moon.png"
@@ -300,7 +300,8 @@
         let isLoop = false;
         let isShuffle = false;
         let progressTimer = null;
-        let lastVolumeBeforeMute = 0.7; // 預設70%
+        let lastVolumeBeforeMute = 0.7;
+        let userInteracted = false;
 
         const audio = document.getElementById('audioPlayer');
         const coverSongTitle = document.getElementById('coverSongTitle');
@@ -321,16 +322,17 @@
             document.getElementById('curr3')
         ];
 
-        // 秒转 00:00 格式
+        // 秒转 00:00
         function secToMMSS(sec) {
             const m = Math.floor(sec / 60);
             const s = Math.floor(sec % 60);
             return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
         }
 
+        // 切歌加载曲目
         function loadTrack(index) {
             clearInterval(progressTimer);
-            // 切歌才隐藏进度、当前时间，暂停不隐藏
+            // 切歌才隐藏进度时间，暂停不隐藏
             progressEls.forEach(el => el.classList.add('hidden'));
             currTimeEls.forEach(el => {
                 el.classList.add('hidden');
@@ -345,10 +347,10 @@
             audio.currentTime = 0;
             progressEls[currentIndex].value = 0;
             currTimeEls[currentIndex].textContent = '00:00';
-            // 更新图标
+            // 更新播放图标
             trackItems.forEach((item, idx) => {
                 const icon = item.querySelector('.play-icon i');
-                if(idx === currentIndex) {
+                if (idx === currentIndex) {
                     icon.className = isPlaying ? "fa fa-pause" : "fa fa-play";
                     item.classList.add('bg-gray-50');
                 } else {
@@ -356,10 +358,10 @@
                     item.classList.remove('bg-gray-50');
                 }
             })
-            // 切歌完成后，直接显示进度与时间，无论播放/暂停
+            // 切完立刻显示进度时间
             progressEls[currentIndex].classList.remove('hidden');
             currTimeEls[currentIndex].classList.remove('hidden');
-            if(isPlaying) {
+            if (isPlaying) {
                 const total = trackList[currentIndex].totalSec;
                 progressTimer = setInterval(() => {
                     const sec = audio.currentTime;
@@ -370,11 +372,11 @@
             }
         }
 
+        // 播放暂停切换（暂停不隐藏进度时间）
         function togglePlay() {
-            if(isPlaying) {
+            if (isPlaying) {
                 audio.pause();
                 clearInterval(progressTimer);
-                // 【关键修改】删除暂停隐藏进度、时间代码，暂停保持显示
             } else {
                 audio.muted = false;
                 audio.play();
@@ -391,10 +393,10 @@
             currentIcon.className = isPlaying ? "fa fa-pause" : "fa fa-play";
         }
 
-        // 拖动进度跳转
+        // 拖动进度条跳转
         progressEls.forEach((el, idx) => {
             el.addEventListener('input', () => {
-                if(idx === currentIndex) {
+                if (idx === currentIndex) {
                     const total = trackList[currentIndex].totalSec;
                     const seekSec = (el.value / 100) * total;
                     audio.currentTime = seekSec;
@@ -403,9 +405,10 @@
             })
         })
 
+        // 歌曲播放完毕
         audio.addEventListener('ended', () => {
             clearInterval(progressTimer);
-            if(isLoop) {
+            if (isLoop) {
                 audio.currentTime = 0;
                 audio.play();
             } else {
@@ -413,33 +416,35 @@
             }
         })
 
+        // 下一曲
         function nextTrack() {
-            if(isShuffle) {
+            if (isShuffle) {
                 let randomIdx = Math.floor(Math.random() * trackList.length);
-                while(randomIdx === currentIndex) randomIdx = Math.floor(Math.random() * trackList.length);
+                while (randomIdx === currentIndex) randomIdx = Math.floor(Math.random() * trackList.length);
                 loadTrack(randomIdx);
             } else {
                 currentIndex = (currentIndex + 1) % trackList.length;
                 loadTrack(currentIndex);
             }
-            if(isPlaying) togglePlay();
+            if (isPlaying) togglePlay();
         }
 
+        // 上一曲
         function prevTrack() {
-            if(audio.currentTime > 3) {
+            if (audio.currentTime > 3) {
                 audio.currentTime = 0;
             } else {
                 currentIndex = (currentIndex - 1 + trackList.length) % trackList.length;
                 loadTrack(currentIndex);
-                if(isPlaying) togglePlay();
+                if (isPlaying) togglePlay();
             }
         }
 
-        // 点击条目切换播放
+        // 点击歌曲切换播放
         trackItems.forEach(item => {
             item.addEventListener('click', () => {
                 const idx = Number(item.dataset.index);
-                if(idx !== currentIndex) {
+                if (idx !== currentIndex) {
                     loadTrack(idx);
                     if (!isPlaying) {
                         togglePlay();
@@ -456,9 +461,7 @@
         volumeSlider.addEventListener('input', () => {
             const volume = volumeSlider.value / 100;
             audio.volume = volume;
-            if (volume > 0) {
-                lastVolumeBeforeMute = volume;
-            }
+            if (volume > 0) lastVolumeBeforeMute = volume;
             if (volume === 0) {
                 volumeIcon.className = 'fa fa-volume-off volume-icon-style';
             } else if (volume < 0.5) {
@@ -468,17 +471,13 @@
             }
         });
 
-        // 静音恢复逻辑
+        // 点击音量图标静音/恢复
         volumeIcon.addEventListener('click', () => {
             if (audio.muted || audio.volume === 0) {
                 audio.muted = false;
                 audio.volume = lastVolumeBeforeMute;
                 volumeSlider.value = lastVolumeBeforeMute * 100;
-                if (lastVolumeBeforeMute < 0.5) {
-                    volumeIcon.className = 'fa fa-volume-down volume-icon-style';
-                } else {
-                    volumeIcon.className = 'fa fa-volume-up volume-icon-style';
-                }
+                volumeIcon.className = lastVolumeBeforeMute < 0.5 ? 'fa fa-volume-down volume-icon-style' : 'fa fa-volume-up volume-icon-style';
             } else {
                 lastVolumeBeforeMute = audio.volume;
                 audio.muted = true;
@@ -487,12 +486,25 @@
             }
         });
 
+        // 页面任意点击解锁自动播放（浏览器策略）
+        function handleFirstInteraction() {
+            if (userInteracted) return;
+            userInteracted = true;
+            audio.muted = false;
+            togglePlay();
+            document.removeEventListener('click', handleFirstInteraction);
+            document.removeEventListener('touchstart', handleFirstInteraction);
+        }
+        document.addEventListener('click', handleFirstInteraction);
+        document.addEventListener('touchstart', handleFirstInteraction);
+
         window.addEventListener('load', () => {
             loadTrack(0);
             audio.volume = 0.7;
             lastVolumeBeforeMute = 0.7;
             volumeSlider.value = 70;
             volumeIcon.className = 'fa fa-volume-up volume-icon-style';
+            audio.load();
         })
     </script>
 </body>
