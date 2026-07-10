@@ -28,9 +28,9 @@
     </script>
     <style type="text/tailwindcss">
         @layer utilities {
-            /* 背景图专用样式，使用bg1.png */
+            /* 背景图更换为 bg2.png */
             .hero-bg-image {
-                background-image: url("./bg1.png");
+                background-image: url("./bg2.png");
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -64,26 +64,28 @@
                 font-weight: bold;
                 backdrop-filter: blur(2px);
             }
-            /* 全局悬浮音量控件：垂直直式、缩小40%、中灰色 */
+            /* 全局悬浮音量控件：垂直直式、放大30%、固定尺寸不变形 */
             .global-volume-wrap {
                 position: fixed;
                 bottom: 24px;
                 right: 24px;
                 z-index: 9999;
                 display: flex;
-                flex-direction: column; /* 垂直直式 */
+                flex-direction: column;
                 align-items: center;
-                gap: 10px;
+                gap: 12px;
                 background: rgba(240,240,240,0.8);
-                padding: 10px 14px;
+                width: 72px;
+                height: 180px;
+                padding: 16px 10px;
                 border-radius: 999px;
                 box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-                transform: scale(0.6); /* 整体缩小40% */
+                transform: scale(1.3); /* 放大30% */
             }
             .volume-slider {
                 -webkit-appearance: none;
                 width: 6px;
-                height: 90px;
+                height: 110px;
                 border-radius: 99px;
                 background: #aaaaaa;
                 outline: none;
@@ -92,14 +94,14 @@
             }
             .volume-slider::-webkit-slider-thumb {
                 -webkit-appearance: none;
-                width: 16px;
-                height: 16px;
+                width: 18px;
+                height: 18px;
                 border-radius: 50%;
                 background: #666666;
                 cursor: pointer;
             }
             .volume-icon-style {
-                font-size: 20px;
+                font-size: 24px;
                 color: #666666;
                 cursor: pointer;
             }
@@ -122,28 +124,28 @@
         }
     </style>
 </head>
-<!-- 网页底色改为浅灰白pageBg，移除顶部pt消除空白 -->
 <body class="bg-pageBg font-sans text-darkText overflow-x-hidden">
-    <!-- 全局悬浮音量控件 垂直直式、缩小40%、中灰色 -->
+    <!-- 全局悬浮音量控件 垂直直式、放大30%、固定尺寸 -->
     <div class="global-volume-wrap">
         <i class="fa fa-volume-up volume-icon-style" id="volumeIcon"></i>
         <input type="range" min="0" max="100" value="100" class="volume-slider" id="volumeSlider">
     </div>
 
-    <!-- Hero 主视觉 移除顶部py消除顶部空白 -->
+    <!-- Hero 主视觉 无顶部空白 py-0 -->
     <section class="min-h-screen hero-bg-image px-6 md:px-12 lg:px-20 py-0 relative overflow-hidden">
         <div class="absolute inset-0 bg-white/20"></div>
         <div class="relative z-10">
-            <!-- Logo 居中，上方留白大幅缩减，下方间距减半 -->
+            <!-- Logo 居中，上下空白缩减 -->
             <div class="flex justify-center mb-3">
                 <img src="https://d50308.github.io/logo.png" alt="chen! logo" class="h-[64px] md:h-[75px]">
             </div>
 
             <div class="grid lg:grid-cols-2 items-center gap-6 lg:gap-0">
-                <!-- 左侧文字区块，与下方LISTEN NOW同边距统一左对齐 -->
+                <!-- 左侧文字区块，与LISTEN NOW同边距左对齐 -->
                 <div class="order-1 lg:order-1 pt-2 lg:pt-0 pl-6 md:pl-12 lg:pl-20">
                     <p class="text-gray-300 font-black text-[50%] tracking-[10px] mb-[4em]">VIRTUAL ARTIST</p>
-                    <h1 class="text-[clamp(1.5rem,3.6vw,2.4rem)] font-bold leading-tight mb-4">
+                    <!-- 這份自在缩小20% -->
+                    <h1 class="text-[clamp(1.2rem,2.88vw,1.92rem)] font-bold leading-tight mb-4">
                         這份自在<br>
                         <span class="font-bold not-italic">We Share.</span>
                     </h1>
@@ -172,7 +174,7 @@
                 <h2 class="text-2xl font-bold">Featured Tracks</h2>
             </div>
             <div class="grid lg:grid-cols-2 gap-8 items-center">
-                <!-- 歌曲清单：唯一播放控制入口，新增进度条 -->
+                <!-- 歌曲清单：唯一播放控制入口，进度条 -->
                 <div class="space-y-3" id="trackList">
                     <div class="track-item-hover rounded-xl p-2 flex items-center gap-3 bg-gray-50 cursor-pointer h-14" data-index="0">
                         <div class="w-10 h-10 rounded-md bg-gradient-to-r from-brandPink to-brandOrange flex items-center justify-center text-white play-icon">
@@ -181,7 +183,6 @@
                         <div class="flex-1">
                             <p class="font-medium">We Share</p>
                         </div>
-                        <!-- 播放中显示进度条 -->
                         <input type="range" min="0" max="100" value="0" class="track-progress hidden" id="progress0">
                         <span class="text-gray-400 text-sm track-duration">03:42</span>
                     </div>
@@ -220,17 +221,16 @@
                     </div>
                 </div>
 
-                <!-- 封面区块：移除音量，仅展示封面+歌名 -->
+                <!-- 封面区块：无音量，仅封面+歌名 -->
                 <div class="cover-container w-full">
                     <img id="albumCoverImg" src="" alt="album cover" class="w-full h-full object-cover hidden">
-                    <!-- 右下角放大歌名 -->
                     <div class="song-title-badge" id="coverSongTitle">We Share</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 订阅区域 取消隐藏，按钮文字改为X -->
+    <!-- 订阅区域 正常显示，按钮文字X -->
     <section class="bg-gradient-to-r from-brandPink/15 to-brandCyan/15 px-6 md:px-12 lg:px-20 py-10">
         <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
@@ -244,13 +244,12 @@
         </div>
     </section>
 
-    <!-- 音频完全移除autoplay，初始静音不自动播放 -->
+    <!-- 音频无自动播放 -->
     <audio id="audioPlayer" muted>
         <source src="https://d50308.github.io/We%20Share.mp3" type="audio/mpeg">
     
 
     <script>
-        // 歌曲列表 携带专辑封面地址、总时长秒数
         const trackList = [
             { 
                 title: "We Share", 
@@ -287,7 +286,6 @@
         let isShuffle = false;
         let progressTimer = null;
 
-        // DOM元素
         const audio = document.getElementById('audioPlayer');
         const coverSongTitle = document.getElementById('coverSongTitle');
         const albumCoverImg = document.getElementById('albumCoverImg');
@@ -301,10 +299,8 @@
             document.getElementById('progress3')
         ];
 
-        // 切歌逻辑
         function loadTrack(index) {
             clearInterval(progressTimer);
-            // 隐藏所有进度条
             progressEls.forEach(el => el.classList.add('hidden'));
             currentIndex = index;
             const track = trackList[currentIndex];
@@ -314,7 +310,6 @@
             albumCoverImg.classList.remove('hidden');
             audio.currentTime = 0;
             progressEls[currentIndex].value = 0;
-            // 更新所有清单播放图标状态
             trackItems.forEach((item, idx) => {
                 const icon = item.querySelector('.play-icon i');
                 if(idx === currentIndex) {
@@ -325,11 +320,9 @@
                     item.classList.remove('bg-gray-50');
                 }
             })
-            // 播放时显示当前歌曲进度条
             if(isPlaying) progressEls[currentIndex].classList.remove('hidden');
         }
 
-        // 点击清单条目切换播放/暂停
         function togglePlay() {
             if(isPlaying) {
                 audio.pause();
@@ -337,9 +330,7 @@
             } else {
                 audio.muted = false;
                 audio.play();
-                // 显示当前歌曲进度条
                 progressEls[currentIndex].classList.remove('hidden');
-                // 每秒更新进度
                 const total = trackList[currentIndex].totalSec;
                 progressTimer = setInterval(() => {
                     const percent = (audio.currentTime / total) * 100;
@@ -347,12 +338,10 @@
                 }, 1000);
             }
             isPlaying = !isPlaying;
-            // 同步更新当前条目图标
             const currentIcon = trackItems[currentIndex].querySelector('.play-icon i');
             currentIcon.className = isPlaying ? "fa fa-pause" : "fa fa-play";
         }
 
-        // 拖动进度条跳转播放位置
         progressEls.forEach((el, idx) => {
             el.addEventListener('input', () => {
                 if(idx === currentIndex) {
@@ -363,7 +352,6 @@
             })
         })
 
-        // 歌曲播放完毕自动切下一首
         audio.addEventListener('ended', () => {
             clearInterval(progressTimer);
             if(isLoop) {
@@ -374,7 +362,6 @@
             }
         })
 
-        // 下一首
         function nextTrack() {
             if(isShuffle) {
                 let randomIdx = Math.floor(Math.random() * trackList.length);
@@ -387,7 +374,6 @@
             if(isPlaying) togglePlay();
         }
 
-        // 上一首
         function prevTrack() {
             if(audio.currentTime > 3) {
                 audio.currentTime = 0;
@@ -398,22 +384,26 @@
             }
         }
 
-        // 绑定清单点击事件
+        // 修复切歌BUG：点击不同曲目直接切歌并自动播放，无需多点两下
         trackItems.forEach(item => {
             item.addEventListener('click', () => {
                 const idx = Number(item.dataset.index);
-                // 点不同歌曲：先切歌再播放
                 if(idx !== currentIndex) {
                     loadTrack(idx);
-                    if(!isPlaying) togglePlay();
+                    // 切歌后直接播放
+                    if (!isPlaying) {
+                        togglePlay();
+                    } else {
+                        // 原本就在播放，切歌后继续播放
+                        audio.play();
+                        progressEls[currentIndex].classList.remove('hidden');
+                    }
                 } else {
-                    // 点当前正在播放的条目：暂停/继续
                     togglePlay();
                 }
             })
         })
 
-        // 音量滑块调节（垂直滑块适配）
         volumeSlider.addEventListener('input', () => {
             const volume = volumeSlider.value / 100;
             audio.volume = volume;
@@ -426,7 +416,6 @@
             }
         });
 
-        // 点击音量图标静音/恢复
         volumeIcon.addEventListener('click', () => {
             if (audio.muted || audio.volume === 0) {
                 audio.muted = false;
@@ -440,7 +429,6 @@
             }
         });
 
-        // 页面初始化：仅加载封面，无自动播放
         window.addEventListener('load', () => {
             loadTrack(0);
             audio.volume = 1;
