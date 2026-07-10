@@ -33,7 +33,7 @@
         @layer utilities {
             /* 背景图更换为 bg2.png */
             .hero-bg-image {
-                background-image: url("./bg3.png");
+                background-image: url("./bg2.png");
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -151,17 +151,18 @@
             </div>
 
             <div class="grid lg:grid-cols-2 items-center gap-6 lg:gap-0">
-                <!-- 左侧文字区块，与LISTEN NOW同边距左对齐，全部文字放大12% -->
+                <!-- 左侧文字区块，整体放大12%，标题行统一字号缩小20%、透明度88% -->
                 <div class="order-1 lg:order-1 pt-2 lg:pt-0 pl-6 md:pl-12 lg:pl-20 scale-[1.12] origin-left">
-    <p class="virtual-artist-text font-black text-[50%] mb-[4em]">VIRTUAL ARTIST</p>
-    <h1 class="text-[clamp(1.2rem,2.88vw,1.92rem)] font-bold leading-tight mb-4 flex items-baseline gap-3">
-        這份自在
-        <span class="text-[clamp(1.44rem,3.456vw,2.304rem)] font-[350] tracking-wide" style="font-family: 'Inter', 'Helvetica Neue', 'Noto Sans TC', 'PingFang SC', 'Microsoft JhengHei', sans-serif; font-stretch: condensed;">We Share.</span>
-    </h1>
-    <p class="text-gray-500 max-w-sm">
-        - 《We Share》by chen!
-    </p>
-</div>
+                    <p class="virtual-artist-text font-black text-[50%] mb-[4em]">VIRTUAL ARTIST</p>
+                    <!-- 统一字号缩小20%，整行opacity 88%，兩者同粗體，We Share取消細字設定 -->
+                    <h1 class="text-[clamp(0.96rem,2.304vw,1.536rem)] font-bold leading-tight mb-4 flex items-baseline gap-3 opacity-[0.88]">
+                        這份自在
+                        <span>We Share.</span>
+                    </h1>
+                    <p class="text-gray-500 max-w-sm">
+                        - 《We Share》by chen!
+                    </p>
+                </div>
 
                 <!-- 人物放大30% -->
                 <div class="order-2 lg:order-2 flex justify-end lg:translate-y-6 mt-8 lg:mt-0">
@@ -183,7 +184,7 @@
                 <h2 class="text-2xl font-bold">Featured Tracks</h2>
             </div>
             <div class="grid lg:grid-cols-2 gap-8 items-center">
-                <!-- 歌曲清单：唯一播放控制入口，进度条+当前时间+总时长，仅播放时显示 -->
+                <!-- 歌曲清单：播放/暂停均显示时间+进度条，仅切歌隐藏重置 -->
                 <div class="space-y-3" id="trackList">
                     <div class="track-item-hover rounded-xl p-2 flex items-center gap-3 bg-gray-50 cursor-pointer h-14" data-index="0">
                         <div class="w-10 h-10 rounded-md bg-gradient-to-r from-brandPink to-brandOrange flex items-center justify-center text-white play-icon">
@@ -328,7 +329,7 @@
 
         function loadTrack(index) {
             clearInterval(progressTimer);
-            // 隐藏所有进度、当前时间
+            // 切歌才隐藏进度、当前时间，暂停不隐藏
             progressEls.forEach(el => el.classList.add('hidden'));
             currTimeEls.forEach(el => {
                 el.classList.add('hidden');
@@ -354,10 +355,17 @@
                     item.classList.remove('bg-gray-50');
                 }
             })
-            // 播放状态才显示进度与当前时间
+            // 切歌完成后，直接显示进度与时间，无论播放/暂停
+            progressEls[currentIndex].classList.remove('hidden');
+            currTimeEls[currentIndex].classList.remove('hidden');
             if(isPlaying) {
-                progressEls[currentIndex].classList.remove('hidden');
-                currTimeEls[currentIndex].classList.remove('hidden');
+                const total = trackList[currentIndex].totalSec;
+                progressTimer = setInterval(() => {
+                    const sec = audio.currentTime;
+                    const percent = (sec / total) * 100;
+                    progressEls[currentIndex].value = percent;
+                    currTimeEls[currentIndex].textContent = secToMMSS(sec);
+                }, 1000);
             }
         }
 
@@ -365,14 +373,10 @@
             if(isPlaying) {
                 audio.pause();
                 clearInterval(progressTimer);
-                // 暂停隐藏进度、时间
-                progressEls[currentIndex].classList.add('hidden');
-                currTimeEls[currentIndex].classList.add('hidden');
+                // 【关键修改】删除暂停隐藏进度、时间代码，暂停保持显示
             } else {
                 audio.muted = false;
                 audio.play();
-                progressEls[currentIndex].classList.remove('hidden');
-                currTimeEls[currentIndex].classList.remove('hidden');
                 const total = trackList[currentIndex].totalSec;
                 progressTimer = setInterval(() => {
                     const sec = audio.currentTime;
@@ -440,8 +444,6 @@
                         togglePlay();
                     } else {
                         audio.play();
-                        progressEls[currentIndex].classList.remove('hidden');
-                        currTimeEls[currentIndex].classList.remove('hidden');
                     }
                 } else {
                     togglePlay();
