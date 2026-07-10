@@ -25,7 +25,7 @@
     </script>
     <style type="text/tailwindcss">
         @layer utilities {
-            /* 背景圖專用class，滿版覆蓋、居中不拉伸 */
+            /* 背景图专用样式，放入渐变底图hero-gradient-bg.png */
             .hero-bg-image {
                 background-image: url("./hero-gradient-bg.png");
                 background-size: cover;
@@ -57,22 +57,20 @@
     </style>
 </head>
 <body class="bg-white font-sans text-darkText overflow-x-hidden">
-    <!-- Hero 主視覺：可載入彩色底圖版型 -->
+    <!-- Hero 主视觉区域（可加载渐变底图） -->
     <section class="min-h-screen hero-bg-image px-6 md:px-12 lg:px-20 py-8 relative overflow-hidden">
-        <!-- 半透明柔光遮罩，避免底圖搶文字閱讀 -->
+        <!-- 柔光遮罩，保护文字可读性 -->
         <div class="absolute inset-0 bg-white/20"></div>
-
-        <!-- 所有內容浮在底圖上 z-10 -->
         <div class="relative z-10">
-            <!-- Logo 預留位置（頂部居中） -->
+            <!-- 顶部Logo预留位 -->
             <div class="flex justify-center mb-10">
                 <img src="./chen-logo.png" alt="chen! logo" class="h-14">
             </div>
 
-            <!-- 主內容左右分欄 原圖排版不變 -->
+            <!-- 响应式布局：PC左右分栏 / 移动端上下堆叠 -->
             <div class="grid lg:grid-cols-2 items-center gap-6 lg:gap-0">
-                <!-- 左側文案 -->
-                <div class="order-2 lg:order-1 pt-4 lg:pt-0">
+                <!-- 左侧文字区（移动端在上） -->
+                <div class="order-1 lg:order-1 pt-4 lg:pt-0">
                     <p class="text-lg text-gray-700 mb-2">Hello,<br>I'm chen!</p>
                     <h1 class="text-[clamp(2.5rem,6vw,4rem)] font-bold leading-tight mb-4">
                         Your Story,<br>
@@ -81,23 +79,22 @@
                     <p class="text-gray-600 max-w-sm">
                         A virtual singer here to share moments that move us—together.
                     </p>
-                    <!-- 已移除 Discover 按鈕 -->
                 </div>
 
-                <!-- 右側人物：縮小10%、右移下移對齊原圖 -->
-                <div class="order-1 lg:order-2 flex justify-end translate-y-6">
+                <!-- 人物图：移动端文字下方、底边贴播放器；PC右侧缩小10%下移 -->
+                <div class="order-2 lg:order-2 flex justify-end lg:translate-y-6 mt-8 lg:mt-0">
                     <img 
                         src="./chen-girl.png" 
                         alt="chen! virtual singer" 
-                        class="max-w-[90%] w-[90%] scale-90 origin-right"
+                        class="max-w-[90%] w-[90%] scale-90 origin-right lg:origin-right mx-auto lg:mx-0"
                     >
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 可運行播放器模塊 -->
-    <section class="px-6 md:px-12 lg:px-20 -mt-24 relative z-10 pb-16">
+    <!-- 音乐播放器模块（人物底部对齐上端） -->
+    <section class="px-6 md:px-12 lg:px-20 -mt-10 lg:-mt-24 relative z-10 pb-16">
         <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 max-w-5xl mx-auto">
             <div class="mb-6">
                 <p class="text-brandPink text-sm font-medium tracking-wide mb-1">LISTEN NOW</p>
@@ -146,7 +143,7 @@
                         <i class="fa fa-ellipsis-v text-gray-300"></i>
                     </div>
                 </div>
-                <!-- 播放器面板 -->
+                <!-- 播放器控制面板 -->
                 <div class="bg-gradient-to-br from-brandPink to-brandOrange rounded-xl p-6 flex flex-col justify-between text-white">
                     <div class="mb-6 flex justify-between items-start">
                         <div>
@@ -176,7 +173,7 @@
         </div>
     </section>
 
-    <!-- 訂閱區 -->
+    <!-- 订阅邮件区块 -->
     <section class="bg-gradient-to-r from-brandPink/15 to-brandCyan/15 px-6 md:px-12 lg:px-20 py-10">
         <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
@@ -190,8 +187,8 @@
         </div>
     </section>
 
-    <!-- 音頻播放 -->
-    <audio id="audioPlayer">
+    <!-- 音频标签，增加autoplay自动播放 -->
+    <audio id="audioPlayer" autoplay muted>
         <source src="https://example.com/WeShare.mp3" type="audio/mpeg">
     
 
@@ -203,7 +200,7 @@
             { title: "Moonlight on Repeat", src: "https://example.com/moon.mp3", duration: "03:33" }
         ];
         let currentIndex = 0;
-        let isPlaying = false;
+        let isPlaying = true;
         let isLoop = false;
         let isShuffle = false;
 
@@ -219,6 +216,7 @@
         const shuffleBtn = document.getElementById('shuffleBtn');
         const trackItems = document.querySelectorAll('#trackList > div');
 
+        // 加载歌曲
         function loadTrack(index) {
             currentIndex = index;
             const track = trackList[currentIndex];
@@ -240,12 +238,14 @@
             })
         }
 
+        // 时间格式化
         function formatTime(sec) {
             const m = Math.floor(sec / 60);
             const s = Math.floor(sec % 60);
             return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
         }
 
+        // 播放暂停切换
         function togglePlay() {
             if(isPlaying) {
                 audio.pause();
@@ -259,17 +259,20 @@
             isPlaying = !isPlaying;
         }
 
+        // 进度同步
         audio.addEventListener('timeupdate', () => {
             const percent = (audio.currentTime / audio.duration) * 100 || 0;
             progressBar.value = percent;
             currentTimeEl.innerText = formatTime(audio.currentTime);
         })
 
+        // 拖动进度条跳转
         progressBar.addEventListener('input', () => {
             const seekSec = (progressBar.value / 100) * audio.duration;
             audio.currentTime = seekSec;
         })
 
+        // 歌曲结束逻辑
         audio.addEventListener('ended', () => {
             if(isLoop) {
                 audio.currentTime = 0;
@@ -279,6 +282,7 @@
             }
         })
 
+        // 下一首
         function nextTrack() {
             if(isShuffle) {
                 let randomIdx = Math.floor(Math.random() * trackList.length);
@@ -291,6 +295,7 @@
             if(isPlaying) audio.play();
         }
 
+        // 上一首
         function prevTrack() {
             if(audio.currentTime > 3) {
                 audio.currentTime = 0;
@@ -301,6 +306,7 @@
             }
         }
 
+        // 点击列表切歌
         trackItems.forEach(item => {
             item.addEventListener('click', () => {
                 const idx = Number(item.dataset.index);
@@ -310,6 +316,7 @@
             })
         })
 
+        // 按钮绑定事件
         mainPlayBtn.addEventListener('click', togglePlay);
         nextBtn.addEventListener('click', nextTrack);
         prevBtn.addEventListener('click', prevTrack);
@@ -325,7 +332,17 @@
             shuffleBtn.classList.toggle('opacity-70', !isShuffle);
         })
 
-        loadTrack(0);
+        // 页面加载完成自动播放兼容处理
+        window.addEventListener('load', () => {
+            loadTrack(0);
+            // 解除静音，尝试正常播放
+            audio.muted = false;
+            audio.play().catch(() => {
+                // 浏览器拦截自动播放时，维持静音自动播放
+                audio.muted = true;
+                audio.play();
+            });
+        })
     </script>
 </body>
 </html>
