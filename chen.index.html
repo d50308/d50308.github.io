@@ -17,7 +17,8 @@
                         darkText: '#1a1a2e',
                         grayMid: '#666666',
                         grayLight: '#aaaaaa',
-                        pageBg: '#f7f7f9'
+                        pageBg: '#f7f7f9',
+                        goldPale: '#d6b56a'
                     },
                     fontFamily: {
                         sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -64,7 +65,13 @@
                 font-weight: bold;
                 backdrop-filter: blur(2px);
             }
-            /* 全局悬浮音量控件：垂直直式、放大30%、固定尺寸不变形 */
+            /* VIRTUAL ARTIST 浅假金色、字距缩减60%、透明度65% */
+            .virtual-artist-text {
+                color: #d6b56a;
+                letter-spacing: 4px;
+                opacity: 0.65;
+            }
+            /* 全局悬浮音量控件：垂直直式、缩小15%、固定尺寸不变形 */
             .global-volume-wrap {
                 position: fixed;
                 bottom: 24px;
@@ -80,7 +87,7 @@
                 padding: 16px 10px;
                 border-radius: 999px;
                 box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-                transform: scale(1.3); /* 放大30% */
+                transform: scale(1.105); /* 上次放大30%后缩小15% */
             }
             .volume-slider {
                 -webkit-appearance: none;
@@ -125,10 +132,10 @@
     </style>
 </head>
 <body class="bg-pageBg font-sans text-darkText overflow-x-hidden">
-    <!-- 全局悬浮音量控件 垂直直式、放大30%、固定尺寸 -->
+    <!-- 全局悬浮音量控件 垂直直式、缩小15%、固定尺寸 -->
     <div class="global-volume-wrap">
         <i class="fa fa-volume-up volume-icon-style" id="volumeIcon"></i>
-        <input type="range" min="0" max="100" value="100" class="volume-slider" id="volumeSlider">
+        <input type="range" min="0" max="100" value="60" class="volume-slider" id="volumeSlider">
     </div>
 
     <!-- Hero 主视觉 无顶部空白 py-0 -->
@@ -143,7 +150,7 @@
             <div class="grid lg:grid-cols-2 items-center gap-6 lg:gap-0">
                 <!-- 左侧文字区块，与LISTEN NOW同边距左对齐 -->
                 <div class="order-1 lg:order-1 pt-2 lg:pt-0 pl-6 md:pl-12 lg:pl-20">
-                    <p class="text-gray-300 font-black text-[50%] tracking-[10px] mb-[4em]">VIRTUAL ARTIST</p>
+                    <p class="virtual-artist-text font-black text-[50%] mb-[4em]">VIRTUAL ARTIST</p>
                     <!-- 這份自在缩小20% -->
                     <h1 class="text-[clamp(1.2rem,2.88vw,1.92rem)] font-bold leading-tight mb-4">
                         這份自在<br>
@@ -285,6 +292,7 @@
         let isLoop = false;
         let isShuffle = false;
         let progressTimer = null;
+        let lastVolumeBeforeMute = 0.6; // 記錄靜音前音量
 
         const audio = document.getElementById('audioPlayer');
         const coverSongTitle = document.getElementById('coverSongTitle');
@@ -384,17 +392,15 @@
             }
         }
 
-        // 修复切歌BUG：点击不同曲目直接切歌并自动播放，无需多点两下
+        // 切歌自动播放修复
         trackItems.forEach(item => {
             item.addEventListener('click', () => {
                 const idx = Number(item.dataset.index);
                 if(idx !== currentIndex) {
                     loadTrack(idx);
-                    // 切歌后直接播放
                     if (!isPlaying) {
                         togglePlay();
                     } else {
-                        // 原本就在播放，切歌后继续播放
                         audio.play();
                         progressEls[currentIndex].classList.remove('hidden');
                     }
@@ -404,9 +410,13 @@
             })
         })
 
+        // 音量滑块监听，保存当前音量
         volumeSlider.addEventListener('input', () => {
             const volume = volumeSlider.value / 100;
             audio.volume = volume;
+            if (volume > 0) {
+                lastVolumeBeforeMute = volume;
+            }
             if (volume === 0) {
                 volumeIcon.className = 'fa fa-volume-off volume-icon-style';
             } else if (volume < 0.5) {
@@ -416,13 +426,19 @@
             }
         });
 
+        // 静音/恢复逻辑：恢复静音前音量，不直接拉满100%
         volumeIcon.addEventListener('click', () => {
             if (audio.muted || audio.volume === 0) {
                 audio.muted = false;
-                audio.volume = 1;
-                volumeSlider.value = 100;
-                volumeIcon.className = 'fa fa-volume-up volume-icon-style';
+                audio.volume = lastVolumeBeforeMute;
+                volumeSlider.value = lastVolumeBeforeMute * 100;
+                if (lastVolumeBeforeMute < 0.5) {
+                    volumeIcon.className = 'fa fa-volume-down volume-icon-style';
+                } else {
+                    volumeIcon.className = 'fa fa-volume-up volume-icon-style';
+                }
             } else {
+                lastVolumeBeforeMute = audio.volume;
                 audio.muted = true;
                 volumeSlider.value = 0;
                 volumeIcon.className = 'fa fa-volume-off volume-icon-style';
@@ -431,8 +447,9 @@
 
         window.addEventListener('load', () => {
             loadTrack(0);
-            audio.volume = 1;
-            volumeSlider.value = 100;
+            audio.volume = 0.6;
+            lastVolumeBeforeMute = 0.6;
+            volumeSlider.value = 60;
             volumeIcon.className = 'fa fa-volume-up volume-icon-style';
         })
     </script>
