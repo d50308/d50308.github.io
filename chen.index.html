@@ -25,7 +25,7 @@
     </script>
     <style type="text/tailwindcss">
         @layer utilities {
-            /* 背景图专用样式，放入渐变底图hero-gradient-bg.png */
+            /* 背景圖專用樣式 */
             .hero-bg-image {
                 background-image: url("./hero-gradient-bg.png");
                 background-size: cover;
@@ -53,57 +53,87 @@
                 background: #fff;
                 cursor: pointer;
             }
+            /* 專輯封面區塊 無圓角、正方形基底 */
+            .cover-container {
+                position: relative;
+                border-radius: 0;
+                overflow: hidden;
+                background: linear-gradient(135deg, #ffb86c, #ff6b9d);
+                aspect-ratio: 1 / 1; /* 強制正方形 */
+                transform: scale(0.7); /* 整體縮小30% */
+                transform-origin: center;
+            }
+            .cover-overlay {
+                position: absolute;
+                inset: 0;
+                background: rgba(0,0,0,0.2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .song-title-badge {
+                position: absolute;
+                bottom: 8px;
+                right: 8px;
+                background: rgba(0,0,0,0.5);
+                color: #fff;
+                padding: 4px 8px;
+                border-radius: 0; /* 底塊無圓角 */
+                font-size: 18px;
+                font-weight: bold; /* 歌名粗體放大150% */
+                backdrop-filter: blur(2px);
+            }
         }
     </style>
 </head>
 <body class="bg-white font-sans text-darkText overflow-x-hidden">
-    <!-- Hero 主视觉区域（可加载渐变底图） -->
+    <!-- Hero 主視覺 -->
     <section class="min-h-screen hero-bg-image px-6 md:px-12 lg:px-20 py-8 relative overflow-hidden">
-        <!-- 柔光遮罩，保护文字可读性 -->
         <div class="absolute inset-0 bg-white/20"></div>
         <div class="relative z-10">
-            <!-- 顶部Logo预留位 -->
+            <!-- Logo 放大20% -->
             <div class="flex justify-center mb-10">
-                <img src="https://d50308.github.io/logo.png" alt="chen! logo" class="h-14">
+                <img src="https://d50308.github.io/logo.png" alt="chen! logo" class="h-[43px] md:h-[50px]">
             </div>
 
-            <!-- 响应式布局：PC左右分栏 / 移动端上下堆叠 -->
             <div class="grid lg:grid-cols-2 items-center gap-6 lg:gap-0">
-                <!-- 左侧文字区（移动端在上） -->
+                <!-- 左側文字 -->
                 <div class="order-1 lg:order-1 pt-4 lg:pt-0">
-                    <p class="text-lg text-gray-700 mb-2">Hello,<br>I'm chen!</p>
-                    <h1 class="text-[clamp(2.5rem,6vw,4rem)] font-bold leading-tight mb-4">
-                        Your Story,<br>
-                        <span class="italic font-normal">My Song.</span>
+                    <!-- VIRTUAL ARTIST：超粗、縮小50%、字距縮減60%、下方行距4倍 -->
+                    <p class="text-gray-300 font-black text-[50%] tracking-[10px] mb-[4em]">VIRTUAL ARTIST</p>
+                    <h1 class="text-[clamp(1.5rem,3.6vw,2.4rem)] font-bold leading-tight mb-4">
+                        這份自在<br>
+                        <span class="font-bold not-italic">We Share.</span>
                     </h1>
-                    <p class="text-gray-600 max-w-sm">
-                        A virtual singer here to share moments that move us—together.
+                    <p class="text-gray-500 max-w-sm">
+                        - 《We Share》by chen!
                     </p>
                 </div>
 
-                <!-- 人物图：移动端文字下方、底边贴播放器；PC右侧缩小10%下移 -->
+                <!-- 人物放大30% -->
                 <div class="order-2 lg:order-2 flex justify-end lg:translate-y-6 mt-8 lg:mt-0">
                     <img 
                         src="https://d50308.github.io/concept%20.png" 
                         alt="chen! virtual singer" 
-                        class="max-w-[90%] w-[90%] scale-90 origin-right lg:origin-right mx-auto lg:mx-0"
+                        class="max-w-[117%] w-[117%] scale-117 origin-right lg:origin-right mx-auto lg:mx-0"
                     >
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 音乐播放器模块（人物底部对齐上端） -->
+    <!-- 播放器區塊 -->
     <section class="px-6 md:px-12 lg:px-20 -mt-10 lg:-mt-24 relative z-10 pb-16">
         <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 max-w-5xl mx-auto">
             <div class="mb-6">
-                <p class="text-brandPink text-sm font-medium tracking-wide mb-1">LISTEN NOW</p>
+                <!-- LISTEN NOW 粗體縮小12% -->
+                <p class="text-brandPink font-bold tracking-wide mb-1 text-[88%]">LISTEN NOW</p>
                 <h2 class="text-2xl font-bold">Featured Tracks</h2>
             </div>
-            <div class="grid lg:grid-cols-2 gap-8">
-                <!-- 歌曲列表 -->
+            <div class="grid lg:grid-cols-2 gap-8 items-center">
+                <!-- 歌曲清單 每格高度縮小30% -->
                 <div class="space-y-3" id="trackList">
-                    <div class="track-item-hover rounded-xl p-3 flex items-center gap-4 bg-gray-50 cursor-pointer" data-index="0">
+                    <div class="track-item-hover rounded-xl p-2 flex items-center gap-4 bg-gray-50 cursor-pointer h-14" data-index="0">
                         <div class="w-10 h-10 rounded-md bg-gradient-to-r from-brandPink to-brandOrange flex items-center justify-center text-white play-icon">
                             <i class="fa fa-play"></i>
                         </div>
@@ -112,7 +142,7 @@
                         </div>
                         <span class="text-gray-400 text-sm track-duration">03:42</span>
                     </div>
-                    <div class="track-item-hover rounded-xl p-3 flex items-center gap-4 cursor-pointer" data-index="1">
+                    <div class="track-item-hover rounded-xl p-2 flex items-center gap-4 cursor-pointer h-14" data-index="1">
                         <div class="w-10 h-10 rounded-md bg-[#a0d8f0] flex items-center justify-center text-white play-icon">
                             <i class="fa fa-play-o"></i>
                         </div>
@@ -122,7 +152,7 @@
                         <span class="text-gray-400 text-sm track-duration">03:58</span>
                         <i class="fa fa-ellipsis-v text-gray-300"></i>
                     </div>
-                    <div class="track-item-hover rounded-xl p-3 flex items-center gap-4 cursor-pointer" data-index="2">
+                    <div class="track-item-hover rounded-xl p-2 flex items-center gap-4 cursor-pointer h-14" data-index="2">
                         <div class="w-10 h-10 rounded-md bg-[#e0d8ff] flex items-center justify-center text-white play-icon">
                             <i class="fa fa-play-o"></i>
                         </div>
@@ -132,7 +162,7 @@
                         <span class="text-gray-400 text-sm track-duration">04:21</span>
                         <i class="fa fa-ellipsis-v text-gray-300"></i>
                     </div>
-                    <div class="track-item-hover rounded-xl p-3 flex items-center gap-4 cursor-pointer" data-index="3">
+                    <div class="track-item-hover rounded-xl p-2 flex items-center gap-4 cursor-pointer h-14" data-index="3">
                         <div class="w-10 h-10 rounded-md bg-[#2a1b47] flex items-center justify-center text-white play-icon">
                             <i class="fa fa-play-o"></i>
                         </div>
@@ -143,38 +173,23 @@
                         <i class="fa fa-ellipsis-v text-gray-300"></i>
                     </div>
                 </div>
-                <!-- 播放器控制面板 -->
-                <div class="bg-gradient-to-br from-brandPink to-brandOrange rounded-xl p-6 flex flex-col justify-between text-white">
-                    <div class="mb-6 flex justify-between items-start">
-                        <div>
-                            <h3 class="text-3xl font-bold mb-2" id="playerTitle">We Share</h3>
-                            <p class="text-white/80 text-sm">chen!</p>
-                        </div>
-                        <i class="fa fa-heart-o text-xl cursor-pointer hover:scale-110 transition-all"></i>
-                    </div>
-                    <div class="w-full mb-4">
-                        <input type="range" min="0" max="100" value="0" class="progress-slider w-full" id="progressBar">
-                        <div class="flex justify-between text-white/70 text-xs mt-1">
-                            <span id="currentTime">00:00</span>
-                            <span id="totalTime">03:42</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-center gap-6 text-xl">
-                        <i class="fa fa-random opacity-70 cursor-pointer" id="shuffleBtn"></i>
-                        <i class="fa fa-step-backward opacity-70 cursor-pointer" id="prevBtn"></i>
-                        <button class="w-12 h-12 rounded-full bg-white text-brandPink flex items-center justify-center text-lg" id="mainPlayBtn">
+
+                <!-- 正方形縮小30%封面區、無內置圖、JS讀取專輯封面 -->
+                <div class="cover-container w-full">
+                    <img id="albumCoverImg" src="" alt="album cover" class="w-full h-full object-cover hidden">
+                    <div class="cover-overlay" id="coverOverlay">
+                        <button class="w-16 h-16 rounded-full bg-white/80 text-brandPink flex items-center justify-center text-2xl" id="coverPlayBtn">
                             <i class="fa fa-pause"></i>
                         </button>
-                        <i class="fa fa-step-forward opacity-70 cursor-pointer" id="nextBtn"></i>
-                        <i class="fa fa-repeat opacity-70 cursor-pointer" id="loopBtn"></i>
                     </div>
+                    <div class="song-title-badge" id="coverSongTitle">We Share</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 订阅邮件区块 -->
-    <section class="bg-gradient-to-r from-brandPink/15 to-brandCyan/15 px-6 md:px-12 lg:px-20 py-10">
+    <!-- 訂閱區 隱藏 -->
+    <section class="bg-gradient-to-r from-brandPink/15 to-brandCyan/15 px-6 md:px-12 lg:px-20 py-10 hidden">
         <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
                 <h3 class="text-xl font-bold mb-1">Be the first to know.</h3>
@@ -187,17 +202,37 @@
         </div>
     </section>
 
-    <!-- 音频标签，增加autoplay自动播放 -->
     <audio id="audioPlayer" autoplay muted>
-        <source src="https://example.com/WeShare.mp3" type="audio/mpeg">
+        <source src="https://d50308.github.io/We%20Share.mp3" type="audio/mpeg">
     
 
     <script>
+        // 每首歌新增 albumCover 專輯封面參數
         const trackList = [
-            { title: "We Share", src: "https://d50308.github.io/We%20Share.mp3", duration: "03:42" },
-            { title: "雨的節奏", src: "https://example.com/rain.mp3", duration: "03:58" },
-            { title: "To the Light", src: "https://example.com/light.mp3", duration: "04:21" },
-            { title: "Moonlight on Repeat", src: "https://example.com/moon.mp3", duration: "03:33" }
+            { 
+                title: "We Share", 
+                src: "https://d50308.github.io/We%20Share.mp3", 
+                duration: "03:42",
+                albumCover: "https://d50308.github.io/cover-we-share.png"
+            },
+            { 
+                title: "雨的節奏", 
+                src: "https://d50308.github.io/rain.mp3", 
+                duration: "03:58",
+                albumCover: "https://d50308.github.io/cover-rain.png"
+            },
+            { 
+                title: "To the Light", 
+                src: "https://d50308.github.io/light.mp3", 
+                duration: "04:21",
+                albumCover: "https://d50308.github.io/cover-light.png"
+            },
+            { 
+                title: "Moonlight on Repeat", 
+                src: "https://d50308.github.io/moon.mp3", 
+                duration: "03:33",
+                albumCover: "https://d50308.github.io/cover-moon.png"
+            }
         ];
         let currentIndex = 0;
         let isPlaying = true;
@@ -205,27 +240,22 @@
         let isShuffle = false;
 
         const audio = document.getElementById('audioPlayer');
-        const mainPlayBtn = document.getElementById('mainPlayBtn');
-        const progressBar = document.getElementById('progressBar');
-        const currentTimeEl = document.getElementById('currentTime');
-        const totalTimeEl = document.getElementById('totalTime');
-        const playerTitle = document.getElementById('playerTitle');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const loopBtn = document.getElementById('loopBtn');
-        const shuffleBtn = document.getElementById('shuffleBtn');
+        const coverPlayBtn = document.getElementById('coverPlayBtn');
+        const coverSongTitle = document.getElementById('coverSongTitle');
+        const albumCoverImg = document.getElementById('albumCoverImg');
         const trackItems = document.querySelectorAll('#trackList > div');
 
-        // 加载歌曲
+        // 切換歌曲時自動替換專輯封面
         function loadTrack(index) {
             currentIndex = index;
             const track = trackList[currentIndex];
             audio.src = track.src;
-            playerTitle.innerText = track.title;
-            totalTimeEl.innerText = track.duration;
+            coverSongTitle.innerText = track.title;
+            // 載入專輯封面圖片
+            albumCoverImg.src = track.albumCover;
+            albumCoverImg.classList.remove('hidden');
+            
             audio.currentTime = 0;
-            progressBar.value = 0;
-            currentTimeEl.innerText = "00:00";
             trackItems.forEach((item, idx) => {
                 const icon = item.querySelector('.play-icon i');
                 if(idx === currentIndex) {
@@ -236,43 +266,28 @@
                     item.classList.remove('bg-gray-50');
                 }
             })
+            coverPlayBtn.innerHTML = isPlaying ? '<i class="fa fa-pause"></i>' : '<i class="fa fa-play"></i>';
         }
 
-        // 时间格式化
         function formatTime(sec) {
             const m = Math.floor(sec / 60);
             const s = Math.floor(sec % 60);
             return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
         }
 
-        // 播放暂停切换
         function togglePlay() {
             if(isPlaying) {
                 audio.pause();
-                mainPlayBtn.innerHTML = '<i class="fa fa-play"></i>';
+                coverPlayBtn.innerHTML = '<i class="fa fa-play"></i>';
                 trackItems[currentIndex].querySelector('.play-icon i').className = "fa fa-play";
             } else {
                 audio.play();
-                mainPlayBtn.innerHTML = '<i class="fa fa-pause"></i>';
+                coverPlayBtn.innerHTML = '<i class="fa fa-pause"></i>';
                 trackItems[currentIndex].querySelector('.play-icon i').className = "fa fa-pause";
             }
             isPlaying = !isPlaying;
         }
 
-        // 进度同步
-        audio.addEventListener('timeupdate', () => {
-            const percent = (audio.currentTime / audio.duration) * 100 || 0;
-            progressBar.value = percent;
-            currentTimeEl.innerText = formatTime(audio.currentTime);
-        })
-
-        // 拖动进度条跳转
-        progressBar.addEventListener('input', () => {
-            const seekSec = (progressBar.value / 100) * audio.duration;
-            audio.currentTime = seekSec;
-        })
-
-        // 歌曲结束逻辑
         audio.addEventListener('ended', () => {
             if(isLoop) {
                 audio.currentTime = 0;
@@ -282,7 +297,6 @@
             }
         })
 
-        // 下一首
         function nextTrack() {
             if(isShuffle) {
                 let randomIdx = Math.floor(Math.random() * trackList.length);
@@ -295,7 +309,6 @@
             if(isPlaying) audio.play();
         }
 
-        // 上一首
         function prevTrack() {
             if(audio.currentTime > 3) {
                 audio.currentTime = 0;
@@ -306,7 +319,6 @@
             }
         }
 
-        // 点击列表切歌
         trackItems.forEach(item => {
             item.addEventListener('click', () => {
                 const idx = Number(item.dataset.index);
@@ -316,29 +328,12 @@
             })
         })
 
-        // 按钮绑定事件
-        mainPlayBtn.addEventListener('click', togglePlay);
-        nextBtn.addEventListener('click', nextTrack);
-        prevBtn.addEventListener('click', prevTrack);
+        coverPlayBtn.addEventListener('click', togglePlay);
 
-        loopBtn.addEventListener('click', () => {
-            isLoop = !isLoop;
-            loopBtn.classList.toggle('opacity-100', isLoop);
-            loopBtn.classList.toggle('opacity-70', !isLoop);
-        })
-        shuffleBtn.addEventListener('click', () => {
-            isShuffle = !isShuffle;
-            shuffleBtn.classList.toggle('opacity-100', isShuffle);
-            shuffleBtn.classList.toggle('opacity-70', !isShuffle);
-        })
-
-        // 页面加载完成自动播放兼容处理
         window.addEventListener('load', () => {
             loadTrack(0);
-            // 解除静音，尝试正常播放
             audio.muted = false;
             audio.play().catch(() => {
-                // 浏览器拦截自动播放时，维持静音自动播放
                 audio.muted = true;
                 audio.play();
             });
