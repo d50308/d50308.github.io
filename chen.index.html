@@ -31,7 +31,7 @@
     </script>
     <style type="text/tailwindcss">
         @layer utilities {
-            /* 背景图 bg1 */
+            /* 背景图 bg3 */
             .hero-bg-image {
                 background-image: url("./bg3.png");
                 background-size: cover;
@@ -146,32 +146,32 @@
         <div class="absolute inset-0 bg-white/20"></div>
         <div class="relative z-10">
             <!-- 顶部Logo 移动端加大下方间距 -->
-            <div class="flex justify-center mb-8">
-                <img src="https://d50308.github.io/logo.png" alt="chen! logo" class="h-[74px] md:h-[86px]">
+            <div class="flex justify-center mb-10 md:mb-8">
+                <img src="https://d50308.github.io/logo.png" alt="chen! " class="h-[74px] md:h-[86px]">
             </div>
 
             <div class="grid lg:grid-cols-2 items-center gap-6 lg:gap-0">
-                <!-- 左侧文字区域：移动端底部margin拉近人物、顶部margin缩小拉开logo距离 -->
-                <div class="order-1 lg:order-1 pt-2 lg:pt-0 pl-6 md:pl-12 lg:pl-20 scale-[1.12] origin-left mb-6 lg:mb-0">
+                <!-- 左侧文字：移动端底部margin缩小，拉近人物 -->
+                <div class="order-1 lg:order-1 pt-2 lg:pt-0 pl-6 md:pl-12 lg:pl-20 scale-[1.12] origin-left mb-2 lg:mb-0">
                     <p class="virtual-artist-text font-black text-[50%] mb-[2em] lg:mb-[4em]">VIRTUAL ARTIST</p>
                     <!-- 這份自在 + We Share 同行、同粗、统一缩小20%、透明度88% -->
                     <h1 class="text-[clamp(0.96rem,2.304vw,1.536rem)] font-bold leading-tight mb-4 flex items-baseline gap-3 opacity-[0.88]">
                         這份自在
                         <span>We Share.</span>
                     </h1>
-                    <!-- 底部小字缩小15%，chen!替换为logo，图标尺寸适配文字基线 -->
+                    <!-- 底部小字缩小15%，logo尺寸贴合文字，不再超大挤字 -->
                     <p class="text-gray-500 max-w-sm flex items-center gap-1" style="font-size: 85%;">
                         - 《We Share》by
-                        <img src="https://d50308.github.io/logo.png" alt="chen!" class="h-[1.2em] w-auto inline-block align-baseline">
+                        <img src="https://d50308.github.io/logo.png" alt="chen!" class="h-[3.6em] w-auto inline-block align-baseline">
                     </p>
                 </div>
 
-                <!-- 右侧人物图 移动端取消上方margin，拉近文字 -->
+                <!-- 右侧人物：移动端无scale放大，桌面端scale-117 -->
                 <div class="order-2 lg:order-2 flex justify-end lg:translate-y-6 mt-0 lg:mt-0">
                     <img
                         src="https://d50308.github.io/concept%20.png"
                         alt="chen! virtual singer"
-                        class="max-w-[117%] w-[117%] scale-117 origin-right lg:origin-right mx-auto lg:mx-0"
+                        class="max-w-full w-full lg:max-w-[117%] lg:w-[117%] lg:scale-117 origin-right lg:origin-right mx-auto lg:mx-0"
                     >
                 </div>
             </div>
@@ -301,7 +301,6 @@
         let isShuffle = false;
         let progressTimer = null;
         let lastVolumeBeforeMute = 0.7;
-        let userInteracted = false;
 
         const audio = document.getElementById('audioPlayer');
         const coverSongTitle = document.getElementById('coverSongTitle');
@@ -405,7 +404,7 @@
             })
         })
 
-        // 歌曲播放完毕
+        // 歌曲播放完毕自动下一首
         audio.addEventListener('ended', () => {
             clearInterval(progressTimer);
             if (isLoop) {
@@ -486,25 +485,14 @@
             }
         });
 
-        // 页面任意点击解锁自动播放（浏览器策略）
-        function handleFirstInteraction() {
-            if (userInteracted) return;
-            userInteracted = true;
-            audio.muted = false;
-            togglePlay();
-            document.removeEventListener('click', handleFirstInteraction);
-            document.removeEventListener('touchstart', handleFirstInteraction);
-        }
-        document.addEventListener('click', handleFirstInteraction);
-        document.addEventListener('touchstart', handleFirstInteraction);
-
         window.addEventListener('load', () => {
             loadTrack(0);
             audio.volume = 0.7;
             lastVolumeBeforeMute = 0.7;
             volumeSlider.value = 70;
             volumeIcon.className = 'fa fa-volume-up volume-icon-style';
-            audio.load();
+            audio.muted = true;
+            // 彻底删除页面点击自动播放监听，打开浏览器不会自动播放
         })
     </script>
 </body>
