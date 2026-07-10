@@ -25,8 +25,9 @@
     </script>
     <style type="text/tailwindcss">
         @layer utilities {
+            /* 更淡奶白粉橙渐变，贴合原图柔和底色 */
             .bg-gradient-hero {
-                background: linear-gradient(120deg, #ffd6e0, #ffdfc4, #c4eaff);
+                background: linear-gradient(135deg, #fff3f7 0%, #fff6e8 50%, #f0f8ff 100%);
             }
             .btn-gradient-border {
                 background: white;
@@ -58,28 +59,41 @@
     </style>
 </head>
 <body class="bg-white font-sans text-darkText overflow-x-hidden">
-    <!-- Hero 主視覺區 -->
-    <section class="min-h-screen bg-gradient-hero px-6 md:px-12 lg:px-20 py-10 flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-        <div class="w-full lg:w-1/2 order-2 lg:order-1">
-            <p class="text-lg text-gray-600 mb-2">Hello,<br>I'm chen!</p>
-            <h1 class="text-[clamp(2.5rem,6vw,4rem)] font-bold leading-tight mb-4">
-                Your Story,<br>
-                <span class="italic font-normal">My Song.</span>
-            </h1>
-            <p class="text-gray-500 max-w-sm mb-8">
-                A virtual singer here to share moments that move us—together.
-            </p>
-            <button class="px-6 py-3 rounded-full btn-gradient-border flex items-center gap-2 hover:shadow-lg transition-all">
-                Discover chen! <i class="fa fa-arrow-right"></i>
-            </button>
+    <!-- Hero 主视觉区 完全保留原图排版 -->
+    <section class="min-h-screen bg-gradient-hero px-6 md:px-12 lg:px-20 py-8 relative overflow-hidden">
+        <!-- Logo 预留位置（原图顶部居中logo位） -->
+        <div class="flex justify-center mb-10">
+            <img src="https://p3-flow-image-sign.byteimg.com/tos-cn-i-a9rns2rl98/chenlogo.png" alt="chen! logo" class="h-14">
         </div>
-        <div class="w-full lg:w-1/2 order-1 lg:order-2 flex justify-center">
-            <img src="https://p3-flow-image-sign.byteimg.com/tos-cn-i-a9rns2rl98/001f3000399c400890d3d300d030d300~tplv-a9rns2rl98-image.image" alt="chen! virtual singer" class="max-w-md w-full">
+
+        <!-- 主体左右布局 原图结构：左文案 右人物 -->
+        <div class="grid lg:grid-cols-2 items-center gap-6 lg:gap-0">
+            <!-- 左侧文案区域 -->
+            <div class="order-2 lg:order-1 pt-4 lg:pt-0">
+                <p class="text-lg text-gray-600 mb-2">Hello,<br>I'm chen!</p>
+                <h1 class="text-[clamp(2.5rem,6vw,4rem)] font-bold leading-tight mb-4">
+                    Your Story,<br>
+                    <span class="italic font-normal">My Song.</span>
+                </h1>
+                <p class="text-gray-500 max-w-sm mb-8">
+                    A virtual singer here to share moments that move us—together.
+                </p>
+                <!-- 已移除 Discover chen! 按钮 -->
+            </div>
+
+            <!-- 右侧人物图：右移、下移、整体缩小10% -->
+            <div class="order-1 lg:order-2 flex justify-end lg:pr-[-4rem] lg:translate-y-6">
+                <img 
+                    src="https://p3-flow-image-sign.byteimg.com/tos-cn-i-a9rns2rl98/chengirl.png" 
+                    alt="chen! virtual singer" 
+                    class="max-w-[90%] w-[90%] scale-90 origin-right"
+                >
+            </div>
         </div>
     </section>
 
-    <!-- 可運行播放器模塊 -->
-    <section class="px-6 md:px-12 lg:px-20 -mt-20 relative z-10 pb-16">
+    <!-- 可运行播放器模块 -->
+    <section class="px-6 md:px-12 lg:px-20 -mt-24 relative z-10 pb-16">
         <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 max-w-5xl mx-auto">
             <div class="mb-6">
                 <p class="text-brandPink text-sm font-medium tracking-wide mb-1">LISTEN NOW</p>
@@ -137,7 +151,7 @@
                         </div>
                         <i class="fa fa-heart-o text-xl cursor-pointer hover:scale-110 transition-all"></i>
                     </div>
-                    <!-- 拖動進度條 -->
+                    <!-- 拖动进度条 -->
                     <div class="w-full mb-4">
                         <input type="range" min="0" max="100" value="0" class="progress-slider w-full" id="progressBar">
                         <div class="flex justify-between text-white/70 text-xs mt-1">
@@ -160,8 +174,8 @@
         </div>
     </section>
 
-    <!-- 訂閱區 -->
-    <section class="bg-gradient-to-r from-brandPink/20 to-brandCyan/20 px-6 md:px-12 lg:px-20 py-10">
+    <!-- 订阅区 -->
+    <section class="bg-gradient-to-r from-brandPink/15 to-brandCyan/15 px-6 md:px-12 lg:px-20 py-10">
         <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
                 <h3 class="text-xl font-bold mb-1">Be the first to know.</h3>
@@ -174,14 +188,14 @@
         </div>
     </section>
 
-    <!-- 音頻核心標籤（隱藏） -->
+    <!-- 音频核心标签（隐藏） -->
     <audio id="audioPlayer">
-        <!-- 替換成你的音樂檔案網址/本地路徑 -->
+        <!-- 替换为你的音乐文件网址/本地路径 -->
         <source src="https://example.com/WeShare.mp3" type="audio/mpeg">
     
 
     <script>
-        // 歌曲清單配置
+        // 歌曲清单配置
         const trackList = [
             { title: "We Share", src: "https://example.com/WeShare.mp3", duration: "03:42" },
             { title: "雨的節奏", src: "https://example.com/rain.mp3", duration: "03:58" },
@@ -206,18 +220,18 @@
         const shuffleBtn = document.getElementById('shuffleBtn');
         const trackItems = document.querySelectorAll('#trackList > div');
 
-        // 切換歌曲
+        // 切换歌曲
         function loadTrack(index) {
             currentIndex = index;
             const track = trackList[currentIndex];
             audio.src = track.src;
             playerTitle.innerText = track.title;
             totalTimeEl.innerText = track.duration;
-            // 重置播放狀態
+            // 重置播放状态
             audio.currentTime = 0;
             progressBar.value = 0;
             currentTimeEl.innerText = "00:00";
-            // 更新列表播放圖標
+            // 更新列表播放图标
             trackItems.forEach((item, idx) => {
                 const icon = item.querySelector('.play-icon i');
                 if(idx === currentIndex) {
@@ -230,14 +244,14 @@
             })
         }
 
-        // 格式化時間 mm:ss
+        // 格式化时间 mm:ss
         function formatTime(sec) {
             const m = Math.floor(sec / 60);
             const s = Math.floor(sec % 60);
             return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
         }
 
-        // 播放/暫停切換
+        // 播放/暂停切换
         function togglePlay() {
             if(isPlaying) {
                 audio.pause();
@@ -251,20 +265,20 @@
             isPlaying = !isPlaying;
         }
 
-        // 進度條同步
+        // 进度条同步
         audio.addEventListener('timeupdate', () => {
             const percent = (audio.currentTime / audio.duration) * 100 || 0;
             progressBar.value = percent;
             currentTimeEl.innerText = formatTime(audio.currentTime);
         })
 
-        // 拖動進度條跳轉
+        // 拖动进度条跳转
         progressBar.addEventListener('input', () => {
             const seekSec = (progressBar.value / 100) * audio.duration;
             audio.currentTime = seekSec;
         })
 
-        // 歌曲播放完畢處理
+        // 歌曲播放完毕处理
         audio.addEventListener('ended', () => {
             if(isLoop) {
                 audio.currentTime = 0;
@@ -298,7 +312,7 @@
             }
         }
 
-        // 點擊列表切歌
+        // 点击列表切歌
         trackItems.forEach(item => {
             item.addEventListener('click', () => {
                 const idx = Number(item.dataset.index);
@@ -308,25 +322,25 @@
             })
         })
 
-        // 按鈕綁定事件
+        // 按钮绑定事件
         mainPlayBtn.addEventListener('click', togglePlay);
         nextBtn.addEventListener('click', nextTrack);
         prevBtn.addEventListener('click', prevTrack);
 
-        // 循環開關
+        // 循环开关
         loopBtn.addEventListener('click', () => {
             isLoop = !isLoop;
             loopBtn.classList.toggle('opacity-100', isLoop);
             loopBtn.classList.toggle('opacity-70', !isLoop);
         })
-        // 隨機開關
+        // 随机开关
         shuffleBtn.addEventListener('click', () => {
             isShuffle = !isShuffle;
             shuffleBtn.classList.toggle('opacity-100', isShuffle);
             shuffleBtn.classList.toggle('opacity-70', !isShuffle);
         })
 
-        // 初始化載入第一首
+        // 初始化载入第一首
         loadTrack(0);
     </script>
 </body>
