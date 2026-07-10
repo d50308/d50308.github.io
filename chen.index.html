@@ -91,9 +91,9 @@
     <section class="min-h-screen hero-bg-image px-6 md:px-12 lg:px-20 py-8 relative overflow-hidden">
         <div class="absolute inset-0 bg-white/20"></div>
         <div class="relative z-10">
-            <!-- Logo 放大20% -->
+            <!-- Logo 放大50% 修正 -->
             <div class="flex justify-center mb-10">
-                <img src="https://d50308.github.io/logo.png" alt="chen! logo" class="h-[43px] md:h-[50px]">
+                <img src="https://d50308.github.io/logo.png" alt="chen! logo" class="h-[64px] md:h-[75px]">
             </div>
 
             <div class="grid lg:grid-cols-2 items-center gap-6 lg:gap-0">
@@ -202,7 +202,8 @@
         </div>
     </section>
 
-    <audio id="audioPlayer" autoplay muted>
+    <!-- 音頻移除autoplay，靠用戶點擊觸發播放 -->
+    <audio id="audioPlayer" muted>
         <source src="https://d50308.github.io/We%20Share.mp3" type="audio/mpeg">
     
 
@@ -235,7 +236,7 @@
             }
         ];
         let currentIndex = 0;
-        let isPlaying = true;
+        let isPlaying = false; // 初始改為未播放，解決狀態衝突
         let isLoop = false;
         let isShuffle = false;
 
@@ -281,6 +282,7 @@
                 coverPlayBtn.innerHTML = '<i class="fa fa-play"></i>';
                 trackItems[currentIndex].querySelector('.play-icon i').className = "fa fa-play";
             } else {
+                audio.muted = false; // 點擊播放解除靜音
                 audio.play();
                 coverPlayBtn.innerHTML = '<i class="fa fa-pause"></i>';
                 trackItems[currentIndex].querySelector('.play-icon i').className = "fa fa-pause";
@@ -330,13 +332,17 @@
 
         coverPlayBtn.addEventListener('click', togglePlay);
 
+        // 頁面載入完成，載入封面，使用者點擊任意地方才解鎖音頻
         window.addEventListener('load', () => {
             loadTrack(0);
-            audio.muted = false;
-            audio.play().catch(() => {
-                audio.muted = true;
-                audio.play();
-            });
+            // 點擊頁面任意位置解鎖音頻
+            function unlockAudio() {
+                audio.load();
+                document.removeEventListener('click', unlockAudio);
+                document.removeEventListener('touchstart', unlockAudio);
+            }
+            document.addEventListener('click', unlockAudio);
+            document.addEventListener('touchstart', unlockAudio);
         })
     </script>
 </body>
