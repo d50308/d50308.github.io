@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>chen!</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li>Home</li>
+        <li>About</li>
+        <li>Gallery</li>
+        <li>News</li>
+        <li>Contact</li>
+      </ul>
+      <button class="follow">Follow chen!</button>
+    </nav>
+    <div class="hero">
+      <h1>Just this moment we share
+這份自在 We Share!</h1>
+      <p>A virtual singer here to share moments that move us—together.</p>
+      <button class="discover">Discover</button>
+    </div>
+  </header>
+
+  <section class="music">
+    <h2>LISTEN NOW</h2>
+    <ul>
+      <li>We Share (03:42)</li>
+      <li>雨的節奏 (03:58)</li>
+      <li>To the Light (04:21)</li>
+      <li>Moonlight on Repeat (03:33)</li>
+    </ul>
+    <div class="player">
+      <p>Now Playing: We Share</p>
+      <progress value="78" max="222"></progress>
+    </div>
+  </section>
+
+  <footer>
+    <h3>Be the first to know</h3>
+    <p>Get the latest updates from chen!</p>
+    <form>
+      <input type="email" placeholder="Enter your email">
+      <button type="submit">Subscribe</button>
+    </form>
+  </footer>
+</body>
+</html>
