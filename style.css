@@ -5,59 +5,28 @@ body {
   color: #333;
 }
 
-header {
+/* Banner */
+.banner {
+  position: relative;
   text-align: center;
-  padding: 2rem;
+}
+.banner img {
+  width: 100%;
+  height: auto;
+}
+.hero-text {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
 }
 
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 1rem;
-  padding: 0;
-}
-
-nav li {
-  cursor: pointer;
-}
-
-button {
-  padding: 0.5rem 1rem;
-  border: none;
-  background: #6c63ff;
-  color: white;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.hero {
-  margin-top: 2rem;
-}
-
-.music {
-  text-align: center;
-  padding: 2rem;
-}
-
-.player {
-  margin-top: 1rem;
-}
-
-footer {
-  background: #fff;
-  text-align: center;
-  padding: 2rem;
-  margin-top: 2rem;
-}
+/* Discover chen 按鈕 */
 .discover {
   position: relative;
-  overflow: hidden; /* 確保波紋不會超出按鈕 */
+  overflow: hidden;
   padding: 1rem 2.5rem;
   font-size: 1.3rem;
   font-weight: bold;
@@ -68,13 +37,18 @@ footer {
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0,0,0,0.25);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-size: 200% 200%;
+  animation: gradientMove 4s ease infinite;
 }
-
 .discover:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 16px rgba(0,0,0,0.3);
 }
-
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 /* 波紋效果 */
 .ripple {
   position: absolute;
@@ -84,10 +58,38 @@ footer {
   animation: rippleEffect 600ms linear;
   pointer-events: none;
 }
-
 @keyframes rippleEffect {
   to {
     transform: scale(4);
     opacity: 0;
   }
+}
+
+/* 音樂區 */
+.music {
+  text-align: center;
+  padding: 2rem;
+}
+.player {
+  margin-top: 1rem;
+}
+
+/* 訂閱區 */
+.subscribe {
+  background: #fff;
+  text-align: center;
+  padding: 2rem;
+}
+.subscribe input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.subscribe button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: #6c63ff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
 }
