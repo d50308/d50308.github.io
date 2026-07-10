@@ -17,6 +17,7 @@
                         darkText: '#1a1a2e',
                         grayMid: '#666666',
                         grayLight: '#aaaaaa',
+                        pageBg: '#f7f7f9'
                     },
                     fontFamily: {
                         sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -27,7 +28,7 @@
     </script>
     <style type="text/tailwindcss">
         @layer utilities {
-            /* 背景图专用样式 */
+            /* 背景图专用样式，使用bg1.png */
             .hero-bg-image {
                 background-image: url("./bg1.png");
                 background-size: cover;
@@ -121,15 +122,16 @@
         }
     </style>
 </head>
-<body class="bg-white font-sans text-darkText overflow-x-hidden pt-2">
+<!-- 网页底色改为浅灰白pageBg，移除顶部pt消除空白 -->
+<body class="bg-pageBg font-sans text-darkText overflow-x-hidden">
     <!-- 全局悬浮音量控件 垂直直式、缩小40%、中灰色 -->
     <div class="global-volume-wrap">
         <i class="fa fa-volume-up volume-icon-style" id="volumeIcon"></i>
         <input type="range" min="0" max="100" value="100" class="volume-slider" id="volumeSlider">
     </div>
 
-    <!-- Hero 主视觉 -->
-    <section class="min-h-screen hero-bg-image px-6 md:px-12 lg:px-20 py-2 relative overflow-hidden">
+    <!-- Hero 主视觉 移除顶部py消除顶部空白 -->
+    <section class="min-h-screen hero-bg-image px-6 md:px-12 lg:px-20 py-0 relative overflow-hidden">
         <div class="absolute inset-0 bg-white/20"></div>
         <div class="relative z-10">
             <!-- Logo 居中，上方留白大幅缩减，下方间距减半 -->
