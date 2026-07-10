@@ -2,38 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>chen!</title>
+  <title>chen! - Virtual Singer</title>
   <link rel="stylesheet" href="style.css">
 </head>
-  <script>
-document.querySelectorAll('.discover').forEach(button => {
-  button.addEventListener('click', function(e) {
-    const ripple = document.createElement('span');
-    ripple.classList.add('ripple');
-    const rect = button.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-    ripple.style.width = ripple.style.height = size + 'px';
-    ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
-    ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
-    button.appendChild(ripple);
-
-    setTimeout(() => {
-      ripple.remove();
-    }, 600);
-  });
-});
-</script>
 <body>
-  <header>
-      <button class="follow">Follow chen!</button>
-    </nav>
-    <div class="hero">
-      <h1>Just this moment we share
-這份自在 We Share!</h1>
+  <!-- Banner 區塊 -->
+  <section class="banner">
+    <img src="banner.png" alt="chen banner">
+    <div class="hero-text">
+      <h1>Hello, I’m chen! Your Story, My Song.</h1>
       <p>A virtual singer here to share moments that move us—together.</p>
-      <button class=".discover"><span>Discover</span></button>
+      <button class="discover"><span>Discover chen!</span></button>
     </div>
-  </header>
+  </section>
+
+  <!-- 音樂播放器 -->
   <section class="music">
     <h2>LISTEN NOW</h2>
     <ul>
@@ -48,13 +31,31 @@ document.querySelectorAll('.discover').forEach(button => {
     </div>
   </section>
 
-  <footer>
+  <!-- 訂閱區 -->
+  <section class="subscribe">
     <h3>Be the first to know</h3>
     <p>Get the latest updates from chen!</p>
     <form>
       <input type="email" placeholder="Enter your email">
       <button type="submit">Subscribe</button>
     </form>
-  </footer>
+  </section>
+
+  <!-- 點擊波紋效果 JS -->
+  <script>
+  document.querySelectorAll('.discover').forEach(button => {
+    button.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('ripple');
+      const rect = button.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+      button.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    });
+  });
+  </script>
 </body>
 </html>
