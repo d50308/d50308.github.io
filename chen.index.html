@@ -186,54 +186,69 @@
                 <h2 class="text-2xl font-bold">Featured Tracks</h2>
             </div>
             <div class="grid lg:grid-cols-2 gap-8 items-center">
-                <!-- 歌曲列表：播放/暂停均显示进度+时间，仅切歌隐藏重置 -->
+                <!-- 歌曲列表：整行不再全部可点，仅左侧图标+文字可点击 -->
                 <div class="space-y-3" id="trackList">
-                    <div class="track-item-hover rounded-xl p-2 flex items-center gap-3 bg-gray-50 cursor-pointer h-14" data-index="0">
-                        <div class="w-10 h-10 rounded-md bg-gradient-to-r from-brandPink to-brandOrange flex items-center justify-center text-white play-icon">
-                            <i class="fa fa-play"></i>
+                    <div class="track-item-hover rounded-xl p-2 flex items-center gap-3 h-14" data-index="0">
+                        <!-- 左侧可点击区域 -->
+                        <div class="flex items-center gap-3 cursor-pointer w-1/2" data-clickable>
+                            <div class="w-10 h-10 rounded-md bg-gradient-to-r from-brandPink to-brandOrange flex items-center justify-center text-white play-icon">
+                                <i class="fa fa-play"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium">We Share</p>
+                            </div>
                         </div>
-                        <div class="flex-1">
-                            <p class="font-medium">We Share</p>
+                        <!-- 右侧进度条区域无点击事件 -->
+                        <div class="flex items-center gap-2 w-1/2 justify-end">
+                            <span class="text-gray-400 text-sm current-time hidden" id="curr0">00:00</span>
+                            <input type="range" min="0" max="100" value="0" class="track-progress hidden" id="progress0">
+                            <span class="text-gray-400 text-sm track-duration">03:24</span>
                         </div>
-                        <span class="text-gray-400 text-sm current-time hidden" id="curr0">00:00</span>
-                        <input type="range" min="0" max="100" value="0" class="track-progress hidden" id="progress0">
-                        <span class="text-gray-400 text-sm track-duration">03:24</span>
                     </div>
-                    <div class="track-item-hover rounded-xl p-2 flex items-center gap-3 cursor-pointer h-14" data-index="1">
-                        <div class="w-10 h-10 rounded-md bg-[#a0d8f0] flex items-center justify-center text-white play-icon">
-                            <i class="fa fa-play-o"></i>
+                    <div class="track-item-hover rounded-xl p-2 flex items-center gap-3 h-14" data-index="1">
+                        <div class="flex items-center gap-3 cursor-pointer w-1/2" data-clickable>
+                            <div class="w-10 h-10 rounded-md bg-[#a0d8f0] flex items-center justify-center text-white play-icon">
+                                <i class="fa fa-play-o"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium">雨的節奏</p>
+                            </div>
                         </div>
-                        <div class="flex-1">
-                            <p class="font-medium">雨的節奏</p>
+                        <div class="flex items-center gap-2 w-1/2 justify-end">
+                            <span class="text-gray-400 text-sm current-time hidden" id="curr1">00:00</span>
+                            <input type="range" min="0" max="100" value="0" class="track-progress hidden" id="progress1">
+                            <span class="text-gray-400 text-sm track-duration">03:09</span>
                         </div>
-                        <span class="text-gray-400 text-sm current-time hidden" id="curr1">00:00</span>
-                        <input type="range" min="0" max="100" value="0" class="track-progress hidden" id="progress1">
-                        <span class="text-gray-400 text-sm track-duration">03:09</span>
-                        <i class="fa fa-ellipsis-v text-gray-300"></i>
                     </div>
-                    <div class="track-item-hover rounded-xl p-2 flex items-center gap-3 cursor-pointer h-14" data-index="2">
-                        <div class="w-10 h-10 rounded-md bg-[#e0d8ff] flex items-center justify-center text-white play-icon">
-                            <i class="fa fa-play-o"></i>
+                    <div class="track-item-hover rounded-xl p-2 flex items-center gap-3 h-14" data-index="2">
+                        <div class="flex items-center gap-3 cursor-pointer w-1/2" data-clickable>
+                            <div class="w-10 h-10 rounded-md bg-[#e0d8ff] flex items-center justify-center text-white play-icon">
+                                <i class="fa fa-play-o"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium">To the Light</p>
+                            </div>
                         </div>
-                        <div class="flex-1">
-                            <p class="font-medium">To the Light</p>
+                        <div class="flex items-center gap-2 w-1/2 justify-end">
+                            <span class="text-gray-400 text-sm current-time hidden" id="curr2">00:00</span>
+                            <input type="range" min="0" max="100" value="0" class="track-progress hidden" id="progress2">
+                            <span class="text-gray-400 text-sm track-duration">02:57</span>
                         </div>
-                        <span class="text-gray-400 text-sm current-time hidden" id="curr2">00:00</span>
-                        <input type="range" min="0" max="100" value="0" class="track-progress hidden" id="progress2">
-                        <span class="text-gray-400 text-sm track-duration">02:57</span>
-                        <i class="fa fa-ellipsis-v text-gray-300"></i>
                     </div>
-                    <div class="track-item-hover rounded-xl p-2 flex items-center gap-3 cursor-pointer h-14" data-index="3">
-                        <div class="w-10 h-10 rounded-md bg-[#2a1b47] flex items-center justify-center text-white play-icon">
-                            <i class="fa fa-play-o"></i>
+                    <div class="track-item-hover rounded-xl p-2 flex items-center gap-3 h-14" data-index="3">
+                        <div class="flex items-center gap-3 cursor-pointer w-1/2" data-clickable>
+                            <div class="w-10 h-10 rounded-md bg-[#2a1b47] flex items-center justify-center text-white play-icon">
+                                <i class="fa fa-play-o"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium">Moonlight on Repeat</p>
+                            </div>
                         </div>
-                        <div class="flex-1">
-                            <p class="font-medium">Moonlight on Repeat</p>
+                        <div class="flex items-center gap-2 w-1/2 justify-end">
+                            <span class="text-gray-400 text-sm current-time hidden" id="curr3">00:00</span>
+                            <input type="range" min="0" max="100" value="0" class="track-progress hidden" id="progress3">
+                            <span class="text-gray-400 text-sm track-duration">03:16</span>
                         </div>
-                        <span class="text-gray-400 text-sm current-time hidden" id="curr3">00:00</span>
-                        <input type="range" min="0" max="100" value="0" class="track-progress hidden" id="progress3">
-                        <span class="text-gray-400 text-sm track-duration">03:16</span>
-                        <i class="fa fa-ellipsis-v text-gray-300"></i>
                     </div>
                 </div>
                 <!-- 专辑封面区域 -->
@@ -331,7 +346,6 @@
         // 切歌加载曲目
         function loadTrack(index) {
             clearInterval(progressTimer);
-            // 切歌才隐藏进度时间，暂停不隐藏
             progressEls.forEach(el => el.classList.add('hidden'));
             currTimeEls.forEach(el => {
                 el.classList.add('hidden');
@@ -344,7 +358,6 @@
             albumCoverImg.src = track.albumCover;
             albumCoverImg.classList.remove('hidden');
             audio.currentTime = 0;
-            // 修复1：进度条max绑定当前歌曲总秒数，不会拖出时长
             progressEls[currentIndex].max = track.totalSec;
             progressEls[currentIndex].value = 0;
             currTimeEls[currentIndex].textContent = '00:00';
@@ -353,13 +366,10 @@
                 const icon = item.querySelector('.play-icon i');
                 if (idx === currentIndex) {
                     icon.className = isPlaying ? "fa fa-pause" : "fa fa-play";
-                    item.classList.add('bg-gray-50');
                 } else {
                     icon.className = "fa fa-play-o";
-                    item.classList.remove('bg-gray-50');
                 }
             })
-            // 切完立刻显示进度时间
             progressEls[currentIndex].classList.remove('hidden');
             currTimeEls[currentIndex].classList.remove('hidden');
             if (isPlaying) {
@@ -372,7 +382,7 @@
             }
         }
 
-        // 播放暂停切换（暂停不隐藏进度时间）
+        // 播放暂停切换
         function togglePlay() {
             if (isPlaying) {
                 audio.pause();
@@ -392,7 +402,7 @@
             currentIcon.className = isPlaying ? "fa fa-pause" : "fa fa-play";
         }
 
-        // 拖动进度条跳转（修复1：按真实秒数计算）
+        // 拖动进度条仅跳转，不暂停
         progressEls.forEach((el, idx) => {
             el.addEventListener('input', () => {
                 if (idx === currentIndex) {
@@ -403,7 +413,7 @@
             })
         })
 
-        // 歌曲播放完毕自动下一首
+        // 播放完毕自动下一首
         audio.addEventListener('ended', () => {
             clearInterval(progressTimer);
             if (isLoop) {
@@ -414,7 +424,7 @@
             }
         })
 
-        // 下一曲（修复2：切歌后自动播放）
+        // 下一曲
         function nextTrack() {
             if (isShuffle) {
                 let randomIdx = Math.floor(Math.random() * trackList.length);
@@ -424,7 +434,6 @@
                 currentIndex = (currentIndex + 1) % trackList.length;
                 loadTrack(currentIndex);
             }
-            // 原本播放状态，切完直接播放
             if (isPlaying) {
                 audio.muted = false;
                 audio.play();
@@ -445,10 +454,11 @@
             }
         }
 
-        // 点击歌曲切换播放
-        trackItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const idx = Number(item.dataset.index);
+        // 只绑定左侧可点击区域
+        document.querySelectorAll('[data-clickable]').forEach(el => {
+            el.addEventListener('click', (e) => {
+                const parentItem = el.closest('[data-index]');
+                const idx = Number(parentItem.dataset.index);
                 if (idx !== currentIndex) {
                     loadTrack(idx);
                     if (!isPlaying) {
@@ -476,7 +486,7 @@
             }
         });
 
-        // 点击音量图标静音/恢复
+        // 音量图标静音切换
         volumeIcon.addEventListener('click', () => {
             if (audio.muted || audio.volume === 0) {
                 audio.muted = false;
@@ -498,7 +508,6 @@
             volumeSlider.value = 70;
             volumeIcon.className = 'fa fa-volume-up volume-icon-style';
             audio.muted = true;
-            // 彻底删除页面点击自动播放监听，打开浏览器不会自动播放
         })
     </script>
 </body>
