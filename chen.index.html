@@ -5,26 +5,35 @@
   <title>chen!</title>
   <link rel="stylesheet" href="style.css">
 </head>
+  <script>
+document.querySelectorAll('.discover').forEach(button => {
+  button.addEventListener('click', function(e) {
+    const ripple = document.createElement('span');
+    ripple.classList.add('ripple');
+    const rect = button.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+    ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+    button.appendChild(ripple);
+
+    setTimeout(() => {
+      ripple.remove();
+    }, 600);
+  });
+});
+</script>
 <body>
   <header>
-    <nav>
-      <ul>
-        <li>Home</li>
-        <li>About</li>
-        <li>Gallery</li>
-        <li>News</li>
-        <li>Contact</li>
-      </ul>
       <button class="follow">Follow chen!</button>
     </nav>
     <div class="hero">
       <h1>Just this moment we share
 這份自在 We Share!</h1>
       <p>A virtual singer here to share moments that move us—together.</p>
-      <button class="discover">Discover</button>
+      <button class="discover"><span>Discover</span></button>
     </div>
   </header>
-
   <section class="music">
     <h2>LISTEN NOW</h2>
     <ul>
