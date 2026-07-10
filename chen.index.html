@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>chen!</title>
+    <!-- 網頁標籤Icon使用Logo -->
+    <link rel="icon" href="https://d50308.github.io/logo.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script>
@@ -65,13 +67,14 @@
                 font-weight: bold;
                 backdrop-filter: blur(2px);
             }
-            /* VIRTUAL ARTIST 浅假金色、字距缩减60%、透明度65% */
+            /* VIRTUAL ARTIST 浅假金色、字距缩减60%、透明度65%、扁字型 */
             .virtual-artist-text {
                 color: #d6b56a;
                 letter-spacing: 4px;
                 opacity: 0.65;
+                font-stretch: condensed; /* 扁窄字型 */
             }
-            /* 全局悬浮音量控件：垂直直式、缩小15%、固定尺寸不变形 */
+            /* 全局悬浮音量控件：垂直直式、整体缩小20%、宽度-20%、固定尺寸不变形 */
             .global-volume-wrap {
                 position: fixed;
                 bottom: 24px;
@@ -82,18 +85,18 @@
                 align-items: center;
                 gap: 12px;
                 background: rgba(240,240,240,0.8);
-                width: 72px;
+                width: 58px; /* 原72px -20% */
                 height: 180px;
                 padding: 16px 10px;
                 border-radius: 999px;
                 box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-                transform: scale(1.105); /* 上次放大30%后缩小15% */
+                transform: scale(0.8); /* 整体缩小20% */
             }
             .volume-slider {
                 -webkit-appearance: none;
                 width: 6px;
                 height: 110px;
-                border-radius: 99px;
+                border-radius: 999px;
                 background: #aaaaaa;
                 outline: none;
                 writing-mode: vertical-lr;
@@ -117,7 +120,7 @@
                 -webkit-appearance: none;
                 width: 70px;
                 height: 4px;
-                border-radius: 99px;
+                border-radius: 999px;
                 background: #e5e7eb;
             }
             .track-progress::-webkit-slider-thumb {
@@ -132,19 +135,19 @@
     </style>
 </head>
 <body class="bg-pageBg font-sans text-darkText overflow-x-hidden">
-    <!-- 全局悬浮音量控件 垂直直式、缩小15%、固定尺寸 -->
+    <!-- 全局悬浮音量控件 垂直直式、缩小20%、宽度缩减20% -->
     <div class="global-volume-wrap">
         <i class="fa fa-volume-up volume-icon-style" id="volumeIcon"></i>
-        <input type="range" min="0" max="100" value="60" class="volume-slider" id="volumeSlider">
+        <input type="range" min="0" max="100" value="70" class="volume-slider" id="volumeSlider">
     </div>
 
     <!-- Hero 主视觉 无顶部空白 py-0 -->
     <section class="min-h-screen hero-bg-image px-6 md:px-12 lg:px-20 py-0 relative overflow-hidden">
         <div class="absolute inset-0 bg-white/20"></div>
         <div class="relative z-10">
-            <!-- Logo 居中，上下空白缩减 -->
+            <!-- Logo 放大15% -->
             <div class="flex justify-center mb-3">
-                <img src="https://d50308.github.io/logo.png" alt="chen! logo" class="h-[64px] md:h-[75px]">
+                <img src="https://d50308.github.io/logo.png" alt="chen! logo" class="h-[74px] md:h-[86px]">
             </div>
 
             <div class="grid lg:grid-cols-2 items-center gap-6 lg:gap-0">
@@ -292,7 +295,7 @@
         let isLoop = false;
         let isShuffle = false;
         let progressTimer = null;
-        let lastVolumeBeforeMute = 0.6; // 記錄靜音前音量
+        let lastVolumeBeforeMute = 0.7; // 預設70%
 
         const audio = document.getElementById('audioPlayer');
         const coverSongTitle = document.getElementById('coverSongTitle');
@@ -447,9 +450,9 @@
 
         window.addEventListener('load', () => {
             loadTrack(0);
-            audio.volume = 0.6;
-            lastVolumeBeforeMute = 0.6;
-            volumeSlider.value = 60;
+            audio.volume = 0.7;
+            lastVolumeBeforeMute = 0.7;
+            volumeSlider.value = 70;
             volumeIcon.className = 'fa fa-volume-up volume-icon-style';
         })
     </script>
