@@ -151,13 +151,13 @@
             </div>
 
             <div class="grid lg:grid-cols-2 items-center gap-6 lg:gap-0">
-                <!-- 左侧文字区块，与LISTEN NOW同边距左对齐 -->
-                <div class="order-1 lg:order-1 pt-2 lg:pt-0 pl-6 md:pl-12 lg:pl-20">
+                <!-- 左侧文字区块，与LISTEN NOW同边距左对齐，全部文字放大12% -->
+                <div class="order-1 lg:order-1 pt-2 lg:pt-0 pl-6 md:pl-12 lg:pl-20 scale-[1.12] origin-left">
                     <p class="virtual-artist-text font-black text-[50%] mb-[4em]">VIRTUAL ARTIST</p>
-                    <!-- 這份自在缩小20% -->
-                    <h1 class="text-[clamp(1.2rem,2.88vw,1.92rem)] font-bold leading-tight mb-4">
-                        這份自在<br>
-                        <span class="font-bold not-italic">We Share.</span>
+                    <!-- 取消换行，We Share.放大20%+细字 -->
+                    <h1 class="text-[clamp(1.2rem,2.88vw,1.92rem)] font-light leading-tight mb-4 flex items-baseline gap-2">
+                        這份自在
+                        <span class="text-[clamp(1.44rem,3.456vw,2.304rem)] font-light">We Share.</span>
                     </h1>
                     <p class="text-gray-500 max-w-sm">
                         - 《We Share》by chen!
@@ -184,7 +184,7 @@
                 <h2 class="text-2xl font-bold">Featured Tracks</h2>
             </div>
             <div class="grid lg:grid-cols-2 gap-8 items-center">
-                <!-- 歌曲清单：唯一播放控制入口，进度条 -->
+                <!-- 歌曲清单：唯一播放控制入口，进度条+当前时间+总时长，仅播放时显示 -->
                 <div class="space-y-3" id="trackList">
                     <div class="track-item-hover rounded-xl p-2 flex items-center gap-3 bg-gray-50 cursor-pointer h-14" data-index="0">
                         <div class="w-10 h-10 rounded-md bg-gradient-to-r from-brandPink to-brandOrange flex items-center justify-center text-white play-icon">
@@ -193,6 +193,7 @@
                         <div class="flex-1">
                             <p class="font-medium">We Share</p>
                         </div>
+                        <span class="text-gray-400 text-sm current-time hidden" id="curr0">00:00</span>
                         <input type="range" min="0" max="100" value="0" class="track-progress hidden" id="progress0">
                         <span class="text-gray-400 text-sm track-duration">03:42</span>
                     </div>
@@ -203,6 +204,7 @@
                         <div class="flex-1">
                             <p class="font-medium">雨的節奏</p>
                         </div>
+                        <span class="text-gray-400 text-sm current-time hidden" id="curr1">00:00</span>
                         <input type="range" min="0" max="100" value="0" class="track-progress hidden" id="progress1">
                         <span class="text-gray-400 text-sm track-duration">03:58</span>
                         <i class="fa fa-ellipsis-v text-gray-300"></i>
@@ -214,6 +216,7 @@
                         <div class="flex-1">
                             <p class="font-medium">To the Light</p>
                         </div>
+                        <span class="text-gray-400 text-sm current-time hidden" id="curr2">00:00</span>
                         <input type="range" min="0" max="100" value="0" class="track-progress hidden" id="progress2">
                         <span class="text-gray-400 text-sm track-duration">04:21</span>
                         <i class="fa fa-ellipsis-v text-gray-300"></i>
@@ -225,6 +228,7 @@
                         <div class="flex-1">
                             <p class="font-medium">Moonlight on Repeat</p>
                         </div>
+                        <span class="text-gray-400 text-sm current-time hidden" id="curr3">00:00</span>
                         <input type="range" min="0" max="100" value="0" class="track-progress hidden" id="progress3">
                         <span class="text-gray-400 text-sm track-duration">03:33</span>
                         <i class="fa fa-ellipsis-v text-gray-300"></i>
@@ -309,10 +313,28 @@
             document.getElementById('progress2'),
             document.getElementById('progress3')
         ];
+        const currTimeEls = [
+            document.getElementById('curr0'),
+            document.getElementById('curr1'),
+            document.getElementById('curr2'),
+            document.getElementById('curr3')
+        ];
+
+        // 秒转 00:00 格式
+        function secToMMSS(sec) {
+            const m = Math.floor(sec / 60);
+            const s = Math.floor(sec % 60);
+            return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        }
 
         function loadTrack(index) {
             clearInterval(progressTimer);
+            // 隐藏所有进度、当前时间
             progressEls.forEach(el => el.classList.add('hidden'));
+            currTimeEls.forEach(el => {
+                el.classList.add('hidden');
+                el.textContent = '00:00';
+            });
             currentIndex = index;
             const track = trackList[currentIndex];
             audio.src = track.src;
@@ -321,6 +343,8 @@
             albumCoverImg.classList.remove('hidden');
             audio.currentTime = 0;
             progressEls[currentIndex].value = 0;
+            currTimeEls[currentIndex].textContent = '00:00';
+            // 更新图标
             trackItems.forEach((item, idx) => {
                 const icon = item.querySelector('.play-icon i');
                 if(idx === currentIndex) {
@@ -331,21 +355,31 @@
                     item.classList.remove('bg-gray-50');
                 }
             })
-            if(isPlaying) progressEls[currentIndex].classList.remove('hidden');
+            // 播放状态才显示进度与当前时间
+            if(isPlaying) {
+                progressEls[currentIndex].classList.remove('hidden');
+                currTimeEls[currentIndex].classList.remove('hidden');
+            }
         }
 
         function togglePlay() {
             if(isPlaying) {
                 audio.pause();
                 clearInterval(progressTimer);
+                // 暂停隐藏进度、时间
+                progressEls[currentIndex].classList.add('hidden');
+                currTimeEls[currentIndex].classList.add('hidden');
             } else {
                 audio.muted = false;
                 audio.play();
                 progressEls[currentIndex].classList.remove('hidden');
+                currTimeEls[currentIndex].classList.remove('hidden');
                 const total = trackList[currentIndex].totalSec;
                 progressTimer = setInterval(() => {
-                    const percent = (audio.currentTime / total) * 100;
+                    const sec = audio.currentTime;
+                    const percent = (sec / total) * 100;
                     progressEls[currentIndex].value = percent;
+                    currTimeEls[currentIndex].textContent = secToMMSS(sec);
                 }, 1000);
             }
             isPlaying = !isPlaying;
@@ -353,12 +387,14 @@
             currentIcon.className = isPlaying ? "fa fa-pause" : "fa fa-play";
         }
 
+        // 拖动进度跳转
         progressEls.forEach((el, idx) => {
             el.addEventListener('input', () => {
                 if(idx === currentIndex) {
                     const total = trackList[currentIndex].totalSec;
                     const seekSec = (el.value / 100) * total;
                     audio.currentTime = seekSec;
+                    currTimeEls[currentIndex].textContent = secToMMSS(seekSec);
                 }
             })
         })
@@ -395,7 +431,7 @@
             }
         }
 
-        // 切歌自动播放修复
+        // 点击条目切换播放
         trackItems.forEach(item => {
             item.addEventListener('click', () => {
                 const idx = Number(item.dataset.index);
@@ -406,6 +442,7 @@
                     } else {
                         audio.play();
                         progressEls[currentIndex].classList.remove('hidden');
+                        currTimeEls[currentIndex].classList.remove('hidden');
                     }
                 } else {
                     togglePlay();
@@ -413,7 +450,7 @@
             })
         })
 
-        // 音量滑块监听，保存当前音量
+        // 音量滑块
         volumeSlider.addEventListener('input', () => {
             const volume = volumeSlider.value / 100;
             audio.volume = volume;
@@ -429,7 +466,7 @@
             }
         });
 
-        // 静音/恢复逻辑：恢复静音前音量，不直接拉满100%
+        // 静音恢复逻辑
         volumeIcon.addEventListener('click', () => {
             if (audio.muted || audio.volume === 0) {
                 audio.muted = false;
