@@ -344,6 +344,8 @@
             albumCoverImg.src = track.albumCover;
             albumCoverImg.classList.remove('hidden');
             audio.currentTime = 0;
+            // 修复1：进度条max绑定当前歌曲总秒数，不会拖出时长
+            progressEls[currentIndex].max = track.totalSec;
             progressEls[currentIndex].value = 0;
             currTimeEls[currentIndex].textContent = '00:00';
             // 更新播放图标
@@ -364,8 +366,7 @@
                 const total = trackList[currentIndex].totalSec;
                 progressTimer = setInterval(() => {
                     const sec = audio.currentTime;
-                    const percent = (sec / total) * 100;
-                    progressEls[currentIndex].value = percent;
+                    progressEls[currentIndex].value = sec;
                     currTimeEls[currentIndex].textContent = secToMMSS(sec);
                 }, 1000);
             }
@@ -382,8 +383,7 @@
                 const total = trackList[currentIndex].totalSec;
                 progressTimer = setInterval(() => {
                     const sec = audio.currentTime;
-                    const percent = (sec / total) * 100;
-                    progressEls[currentIndex].value = percent;
+                    progressEls[currentIndex].value = sec;
                     currTimeEls[currentIndex].textContent = secToMMSS(sec);
                 }, 1000);
             }
@@ -392,14 +392,13 @@
             currentIcon.className = isPlaying ? "fa fa-pause" : "fa fa-play";
         }
 
-        // 拖动进度条跳转
+        // 拖动进度条跳转（修复1：按真实秒数计算）
         progressEls.forEach((el, idx) => {
             el.addEventListener('input', () => {
                 if (idx === currentIndex) {
-                    const total = trackList[currentIndex].totalSec;
-                    const seekSec = (el.value / 100) * total;
-                    audio.currentTime = seekSec;
-                    currTimeEls[currentIndex].textContent = secToMMSS(seekSec);
+                    const sec = Number(el.value);
+                    audio.currentTime = sec;
+                    currTimeEls[currentIndex].textContent = secToMMSS(sec);
                 }
             })
         })
@@ -415,7 +414,7 @@
             }
         })
 
-        // 下一曲
+        // 下一曲（修复2：切歌后自动播放）
         function nextTrack() {
             if (isShuffle) {
                 let randomIdx = Math.floor(Math.random() * trackList.length);
@@ -425,7 +424,11 @@
                 currentIndex = (currentIndex + 1) % trackList.length;
                 loadTrack(currentIndex);
             }
-            if (isPlaying) togglePlay();
+            // 原本播放状态，切完直接播放
+            if (isPlaying) {
+                audio.muted = false;
+                audio.play();
+            }
         }
 
         // 上一曲
@@ -435,7 +438,10 @@
             } else {
                 currentIndex = (currentIndex - 1 + trackList.length) % trackList.length;
                 loadTrack(currentIndex);
-                if (isPlaying) togglePlay();
+                if (isPlaying) {
+                    audio.muted = false;
+                    audio.play();
+                }
             }
         }
 
