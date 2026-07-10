@@ -55,6 +55,26 @@ footer {
   padding: 2rem;
   margin-top: 2rem;
 }
+.discover {
+  position: relative;
+  overflow: hidden; /* 確保波紋不會超出按鈕 */
+  padding: 1rem 2.5rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(135deg, #6c63ff, #00c6ff);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.discover:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+}
+
 /* 波紋效果 */
 .ripple {
   position: absolute;
