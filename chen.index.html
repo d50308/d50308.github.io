@@ -1,61 +1,333 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>chen! - Virtual Singer</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chen! - Your Story, My Song</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandPink: '#ff6b9d',
+                        brandCyan: '#4cd0d0',
+                        brandOrange: '#ffb86c',
+                        darkText: '#1a1a2e'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .bg-gradient-hero {
+                background: linear-gradient(120deg, #ffd6e0, #ffdfc4, #c4eaff);
+            }
+            .btn-gradient-border {
+                background: white;
+                border: 2px solid transparent;
+                border-image: linear-gradient(to right, #ffb86c, #ff6b9d) 1;
+            }
+            .track-item-hover {
+                transition: all 0.2s ease;
+            }
+            .track-item-hover:hover {
+                background: #f8f9ff;
+            }
+            .progress-slider {
+                -webkit-appearance: none;
+                width: 100%;
+                height: 4px;
+                border-radius: 99px;
+                background: rgba(255,255,255,0.3);
+            }
+            .progress-slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background: #fff;
+                cursor: pointer;
+            }
+        }
+    </style>
 </head>
-<body>
-  <!-- Banner 區塊 -->
-  <section class="banner">
-    <img src="banner.png" alt="chen banner">
-    <div class="hero-text">
-      <h1>Hello, I’m chen! Your Story, My Song.</h1>
-      <p>A virtual singer here to share moments that move us—together.</p>
-      <button class="discover"><span>Discover chen!</span></button>
-    </div>
-  </section>
+<body class="bg-white font-sans text-darkText overflow-x-hidden">
+    <!-- Hero 主視覺區 -->
+    <section class="min-h-screen bg-gradient-hero px-6 md:px-12 lg:px-20 py-10 flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
+        <div class="w-full lg:w-1/2 order-2 lg:order-1">
+            <p class="text-lg text-gray-600 mb-2">Hello,<br>I'm chen!</p>
+            <h1 class="text-[clamp(2.5rem,6vw,4rem)] font-bold leading-tight mb-4">
+                Your Story,<br>
+                <span class="italic font-normal">My Song.</span>
+            </h1>
+            <p class="text-gray-500 max-w-sm mb-8">
+                A virtual singer here to share moments that move us—together.
+            </p>
+            <button class="px-6 py-3 rounded-full btn-gradient-border flex items-center gap-2 hover:shadow-lg transition-all">
+                Discover chen! <i class="fa fa-arrow-right"></i>
+            </button>
+        </div>
+        <div class="w-full lg:w-1/2 order-1 lg:order-2 flex justify-center">
+            <img src="https://p3-flow-image-sign.byteimg.com/tos-cn-i-a9rns2rl98/001f3000399c400890d3d300d030d300~tplv-a9rns2rl98-image.image" alt="chen! virtual singer" class="max-w-md w-full">
+        </div>
+    </section>
 
-  <!-- 音樂播放器 -->
-  <section class="music">
-    <h2>LISTEN NOW</h2>
-    <ul>
-      <li>We Share (03:42)</li>
-      <li>雨的節奏 (03:58)</li>
-      <li>To the Light (04:21)</li>
-      <li>Moonlight on Repeat (03:33)</li>
-    </ul>
-    <div class="player">
-      <p>Now Playing: We Share</p>
-      <progress value="78" max="222"></progress>
-    </div>
-  </section>
+    <!-- 可運行播放器模塊 -->
+    <section class="px-6 md:px-12 lg:px-20 -mt-20 relative z-10 pb-16">
+        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 max-w-5xl mx-auto">
+            <div class="mb-6">
+                <p class="text-brandPink text-sm font-medium tracking-wide mb-1">LISTEN NOW</p>
+                <h2 class="text-2xl font-bold">Featured Tracks</h2>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- 歌曲列表 -->
+                <div class="space-y-3" id="trackList">
+                    <div class="track-item-hover rounded-xl p-3 flex items-center gap-4 bg-gray-50 cursor-pointer" data-index="0">
+                        <div class="w-10 h-10 rounded-md bg-gradient-to-r from-brandPink to-brandOrange flex items-center justify-center text-white play-icon">
+                            <i class="fa fa-play"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium">We Share</p>
+                        </div>
+                        <span class="text-gray-400 text-sm track-duration">03:42</span>
+                    </div>
+                    <div class="track-item-hover rounded-xl p-3 flex items-center gap-4 cursor-pointer" data-index="1">
+                        <div class="w-10 h-10 rounded-md bg-[#a0d8f0] flex items-center justify-center text-white play-icon">
+                            <i class="fa fa-play-o"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium">雨的節奏</p>
+                        </div>
+                        <span class="text-gray-400 text-sm track-duration">03:58</span>
+                        <i class="fa fa-ellipsis-v text-gray-300"></i>
+                    </div>
+                    <div class="track-item-hover rounded-xl p-3 flex items-center gap-4 cursor-pointer" data-index="2">
+                        <div class="w-10 h-10 rounded-md bg-[#e0d8ff] flex items-center justify-center text-white play-icon">
+                            <i class="fa fa-play-o"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium">To the Light</p>
+                        </div>
+                        <span class="text-gray-400 text-sm track-duration">04:21</span>
+                        <i class="fa fa-ellipsis-v text-gray-300"></i>
+                    </div>
+                    <div class="track-item-hover rounded-xl p-3 flex items-center gap-4 cursor-pointer" data-index="3">
+                        <div class="w-10 h-10 rounded-md bg-[#2a1b47] flex items-center justify-center text-white play-icon">
+                            <i class="fa fa-play-o"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium">Moonlight on Repeat</p>
+                        </div>
+                        <span class="text-gray-400 text-sm track-duration">03:33</span>
+                        <i class="fa fa-ellipsis-v text-gray-300"></i>
+                    </div>
+                </div>
+                <!-- 播放器面板 -->
+                <div class="bg-gradient-to-br from-brandPink to-brandOrange rounded-xl p-6 flex flex-col justify-between text-white">
+                    <div class="mb-6 flex justify-between items-start">
+                        <div>
+                            <h3 class="text-3xl font-bold mb-2" id="playerTitle">We Share</h3>
+                            <p class="text-white/80 text-sm">chen!</p>
+                        </div>
+                        <i class="fa fa-heart-o text-xl cursor-pointer hover:scale-110 transition-all"></i>
+                    </div>
+                    <!-- 拖動進度條 -->
+                    <div class="w-full mb-4">
+                        <input type="range" min="0" max="100" value="0" class="progress-slider w-full" id="progressBar">
+                        <div class="flex justify-between text-white/70 text-xs mt-1">
+                            <span id="currentTime">00:00</span>
+                            <span id="totalTime">03:42</span>
+                        </div>
+                    </div>
+                    <!-- 播放控制 -->
+                    <div class="flex items-center justify-center gap-6 text-xl">
+                        <i class="fa fa-random opacity-70 cursor-pointer" id="shuffleBtn"></i>
+                        <i class="fa fa-step-backward opacity-70 cursor-pointer" id="prevBtn"></i>
+                        <button class="w-12 h-12 rounded-full bg-white text-brandPink flex items-center justify-center text-lg" id="mainPlayBtn">
+                            <i class="fa fa-pause"></i>
+                        </button>
+                        <i class="fa fa-step-forward opacity-70 cursor-pointer" id="nextBtn"></i>
+                        <i class="fa fa-repeat opacity-70 cursor-pointer" id="loopBtn"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- 訂閱區 -->
-  <section class="subscribe">
-    <h3>Be the first to know</h3>
-    <p>Get the latest updates from chen!</p>
-    <form>
-      <input type="email" placeholder="Enter your email">
-      <button type="submit">Subscribe</button>
-    </form>
-  </section>
+    <!-- 訂閱區 -->
+    <section class="bg-gradient-to-r from-brandPink/20 to-brandCyan/20 px-6 md:px-12 lg:px-20 py-10">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+                <h3 class="text-xl font-bold mb-1">Be the first to know.</h3>
+                <p class="text-gray-500 text-sm">Get the latest updates from chen!</p>
+            </div>
+            <div class="flex w-full md:w-auto">
+                <input type="email" placeholder="Enter your email" class="px-4 py-3 rounded-l-full border border-gray-200 outline-none w-full md:w-64 focus:border-brandPink transition-all">
+                <button class="bg-darkText text-white px-6 py-3 rounded-r-full hover:opacity-90 transition-all">Subscribe</button>
+            </div>
+        </div>
+    </section>
 
-  <!-- 點擊波紋效果 JS -->
-  <script>
-  document.querySelectorAll('.discover').forEach(button => {
-    button.addEventListener('click', function(e) {
-      const ripple = document.createElement('span');
-      ripple.classList.add('ripple');
-      const rect = button.getBoundingClientRect();
-      const size = Math.max(rect.width, rect.height);
-      ripple.style.width = ripple.style.height = size + 'px';
-      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
-      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
-      button.appendChild(ripple);
-      setTimeout(() => ripple.remove(), 600);
-    });
-  });
-  </script>
+    <!-- 音頻核心標籤（隱藏） -->
+    <audio id="audioPlayer">
+        <!-- 替換成你的音樂檔案網址/本地路徑 -->
+        <source src="https://example.com/WeShare.mp3" type="audio/mpeg">
+    
+
+    <script>
+        // 歌曲清單配置
+        const trackList = [
+            { title: "We Share", src: "https://example.com/WeShare.mp3", duration: "03:42" },
+            { title: "雨的節奏", src: "https://example.com/rain.mp3", duration: "03:58" },
+            { title: "To the Light", src: "https://example.com/light.mp3", duration: "04:21" },
+            { title: "Moonlight on Repeat", src: "https://example.com/moon.mp3", duration: "03:33" }
+        ];
+        let currentIndex = 0;
+        let isPlaying = false;
+        let isLoop = false;
+        let isShuffle = false;
+
+        // DOM 元素
+        const audio = document.getElementById('audioPlayer');
+        const mainPlayBtn = document.getElementById('mainPlayBtn');
+        const progressBar = document.getElementById('progressBar');
+        const currentTimeEl = document.getElementById('currentTime');
+        const totalTimeEl = document.getElementById('totalTime');
+        const playerTitle = document.getElementById('playerTitle');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const loopBtn = document.getElementById('loopBtn');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const trackItems = document.querySelectorAll('#trackList > div');
+
+        // 切換歌曲
+        function loadTrack(index) {
+            currentIndex = index;
+            const track = trackList[currentIndex];
+            audio.src = track.src;
+            playerTitle.innerText = track.title;
+            totalTimeEl.innerText = track.duration;
+            // 重置播放狀態
+            audio.currentTime = 0;
+            progressBar.value = 0;
+            currentTimeEl.innerText = "00:00";
+            // 更新列表播放圖標
+            trackItems.forEach((item, idx) => {
+                const icon = item.querySelector('.play-icon i');
+                if(idx === currentIndex) {
+                    icon.className = isPlaying ? "fa fa-pause" : "fa fa-play";
+                    item.classList.add('bg-gray-50');
+                } else {
+                    icon.className = "fa fa-play-o";
+                    item.classList.remove('bg-gray-50');
+                }
+            })
+        }
+
+        // 格式化時間 mm:ss
+        function formatTime(sec) {
+            const m = Math.floor(sec / 60);
+            const s = Math.floor(sec % 60);
+            return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        }
+
+        // 播放/暫停切換
+        function togglePlay() {
+            if(isPlaying) {
+                audio.pause();
+                mainPlayBtn.innerHTML = '<i class="fa fa-play"></i>';
+                trackItems[currentIndex].querySelector('.play-icon i').className = "fa fa-play";
+            } else {
+                audio.play();
+                mainPlayBtn.innerHTML = '<i class="fa fa-pause"></i>';
+                trackItems[currentIndex].querySelector('.play-icon i').className = "fa fa-pause";
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // 進度條同步
+        audio.addEventListener('timeupdate', () => {
+            const percent = (audio.currentTime / audio.duration) * 100 || 0;
+            progressBar.value = percent;
+            currentTimeEl.innerText = formatTime(audio.currentTime);
+        })
+
+        // 拖動進度條跳轉
+        progressBar.addEventListener('input', () => {
+            const seekSec = (progressBar.value / 100) * audio.duration;
+            audio.currentTime = seekSec;
+        })
+
+        // 歌曲播放完畢處理
+        audio.addEventListener('ended', () => {
+            if(isLoop) {
+                audio.currentTime = 0;
+                audio.play();
+            } else {
+                nextTrack();
+            }
+        })
+
+        // 下一首
+        function nextTrack() {
+            if(isShuffle) {
+                let randomIdx = Math.floor(Math.random() * trackList.length);
+                while(randomIdx === currentIndex) randomIdx = Math.floor(Math.random() * trackList.length);
+                loadTrack(randomIdx);
+            } else {
+                currentIndex = (currentIndex + 1) % trackList.length;
+                loadTrack(currentIndex);
+            }
+            if(isPlaying) audio.play();
+        }
+
+        // 上一首
+        function prevTrack() {
+            if(audio.currentTime > 3) {
+                audio.currentTime = 0;
+            } else {
+                currentIndex = (currentIndex - 1 + trackList.length) % trackList.length;
+                loadTrack(currentIndex);
+                if(isPlaying) audio.play();
+            }
+        }
+
+        // 點擊列表切歌
+        trackItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const idx = Number(item.dataset.index);
+                loadTrack(idx);
+                if(!isPlaying) togglePlay();
+                else audio.play();
+            })
+        })
+
+        // 按鈕綁定事件
+        mainPlayBtn.addEventListener('click', togglePlay);
+        nextBtn.addEventListener('click', nextTrack);
+        prevBtn.addEventListener('click', prevTrack);
+
+        // 循環開關
+        loopBtn.addEventListener('click', () => {
+            isLoop = !isLoop;
+            loopBtn.classList.toggle('opacity-100', isLoop);
+            loopBtn.classList.toggle('opacity-70', !isLoop);
+        })
+        // 隨機開關
+        shuffleBtn.addEventListener('click', () => {
+            isShuffle = !isShuffle;
+            shuffleBtn.classList.toggle('opacity-100', isShuffle);
+            shuffleBtn.classList.toggle('opacity-70', !isShuffle);
+        })
+
+        // 初始化載入第一首
+        loadTrack(0);
+    </script>
 </body>
 </html>
